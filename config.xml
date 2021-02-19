@@ -157,6 +157,7 @@
 	<plugin name="phonegap-plugin-speech-synthesis" spec="https://github.com/macdonst/SpeechSynthesisPlugin" />
 	<plugin name="cordova-plugin-background-mode" />
 	<plugin name="cordova-plugin-androidx" />
+	<plugin name="cordova-plugin-androidx-adapter" />
 	
 	<plugin name="cordova-httpd" spec="https://github.com/floatinghotpot/cordova-httpd.git" />
 	
