@@ -1,0 +1,23 @@
+{
+  "name": "centurypacific.wizaya.com",
+  "version": "1.0.1",
+  "description": "Project Titan App of Century Pacific",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jybanez/centurypacific.wizaya.com.git"
+  },
+  "keywords": [
+    "Project",
+    "Titan"
+  ],
+  "author": "Wizaya Business Technologies",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jybanez/centurypacific.wizaya.com/issues"
+  },
+  "homepage": "https://github.com/jybanez/centurypacific.wizaya.com#readme"
+}
