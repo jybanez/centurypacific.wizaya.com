@@ -1,7 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.wizaya.centurypacific" version="1.0.4" versionCode="" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Century Pacific Food</name>
-    <description>Project Titan of Century Pacific Food</description>
+<widget id="com.wizaya.centurypacific" 
+	version="1.0.4" 
+	versionCode="" 
+	xmlns="http://www.w3.org/ns/widgets" 
+	xmlns:android="http://schemas.android.com/apk/res/android" 
+	xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Project Titan</name>
+    <description>Project Titan App of CPFI</description>
     <author email="support@wizaya.com" href="http://www.wizaya.com">Tech Project Hive - Wizaya Division</author>
     <feature name="http://api.phonegap.com/1.0/battery" />
     <feature name="http://api.phonegap.com/1.0/camera" />
@@ -151,6 +156,7 @@
     <plugin name="cordova-plugin-camera" spec="https://github.com/apache/cordova-plugin-camera.git" />
 	<plugin name="phonegap-plugin-speech-synthesis" spec="https://github.com/macdonst/SpeechSynthesisPlugin" />
 	<plugin name="cordova-plugin-background-mode" />
+	<plugin name="cordova-plugin-androidx" />
 	
 	<plugin name="cordova-httpd" spec="https://github.com/floatinghotpot/cordova-httpd.git" />
 	
