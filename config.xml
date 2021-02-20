@@ -47,13 +47,10 @@
         <splash src="res/screen/ios/Default@2x~ipad~comany.png"/>
 
         <!-- Storyboard landscape -->
-        <!--
         <splash src="res/screen/ios/Default@2x~iphone~comcom.png"/>
         <splash src="res/screen/ios/Default@3x~iphone~anycom.png"/>
-        -->
 
         <!-- Legacy portrait -->
-        <!--
         <splash src="res/screen/ios/Default~iphone.png" width="320" height="480"/>
         <splash src="res/screen/ios/Default@2x~iphone.png" width="640" height="960"/>
         <splash src="res/screen/ios/Default-Portrait~ipad.png" width="768" height="1024"/>
@@ -61,13 +58,10 @@
         <splash src="res/screen/ios/Default-568h@2x~iphone.png" width="640" height="1136"/>
         <splash src="res/screen/ios/Default-667h.png" width="750" height="1334"/>
         <splash src="res/screen/ios/Default-736h.png" width="1242" height="2208"/>
-        -->
 
         <!-- Legacy landscape -->
-        <!--
         <splash src="res/screen/ios/Default-Landscape~ipad.png" width="1024" height="768"/>
         <splash src="res/screen/ios/Default-Landscape@2x~ipad.png" width="2048" height="1536"/>
-        -->
 	</platform>
 	<platform name="android">
 		<config-file parent="/*" target="AndroidManifest.xml">
@@ -91,14 +85,12 @@
         <splash density="port-xxxhdpi" src="res/screen/android/splash-port-xxxhdpi.png"/>
 
         <!-- Landscape -->
-        <!--
         <splash density="land-ldpi" src="res/screen/android/splash-land-ldpi.png"/>
         <splash density="land-mdpi" src="res/screen/android/splash-land-mdpi.png"/>
         <splash density="land-hdpi" src="res/screen/android/splash-land-hdpi.png"/>
         <splash density="land-xhdpi" src="res/screen/android/splash-land-xhdpi.png"/>
         <splash density="land-xxhdpi" src="res/screen/android/splash-land-xxhdpi.png"/>
         <splash density="land-xxxhdpi" src="res/screen/android/splash-land-xxxhdpi.png"/>
-        -->
 	</platform>
 	<platform name="windows">
 		<icon src="res/icon/windows/storelogo.png" target="StoreLogo"/>
@@ -155,7 +147,9 @@
     <plugin name="cordova-plugin-bluetooth-printer" spec="https://github.com/jybanez/BluetoothPrinter" />
     <plugin name="cordova-plugin-camera" spec="https://github.com/apache/cordova-plugin-camera.git" />
 	<plugin name="phonegap-plugin-speech-synthesis" spec="https://github.com/macdonst/SpeechSynthesisPlugin" />
+	<!--
 	<plugin name="cordova-plugin-background-mode" />
+	-->
 	<plugin name="cordova-plugin-androidx" />
 	<plugin name="cordova-plugin-androidx-adapter" />
 	
