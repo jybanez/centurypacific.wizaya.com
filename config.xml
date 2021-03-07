@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.wizaya.centurypacific" 
-	version="1.0.4" 
+	version="1.0.15" 
 	versionCode="" 
 	xmlns="http://www.w3.org/ns/widgets" 
 	xmlns:android="http://schemas.android.com/apk/res/android" 
 	xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Project Titan</name>
-    <description>Project Titan App of CPFI</description>
+    <description>Project Titan App for CPFI</description>
     <author email="support@wizaya.com" href="http://www.wizaya.com">Tech Project Hive - Wizaya Division</author>
     <feature name="http://api.phonegap.com/1.0/battery" />
     <feature name="http://api.phonegap.com/1.0/camera" />
@@ -17,6 +17,9 @@
     <feature name="http://api.phonegap.com/1.0/network" />
     <feature name="http://api.phonegap.com/1.0/notification" />
     <platform name="ios">
+    	<allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+        
 		<icon src="res/icon/ios/icon-1024.png" width="1024" height="1024"/>
         <icon src="res/icon/ios/icon-small.png" width="29" height="29"/>
         <icon src="res/icon/ios/icon-small@2x.png" width="58" height="58"/>
@@ -62,13 +65,28 @@
         <!-- Legacy landscape -->
         <splash src="res/screen/ios/Default-Landscape~ipad.png" width="1024" height="768"/>
         <splash src="res/screen/ios/Default-Landscape@2x~ipad.png" width="2048" height="1536"/>
+        
+        <edit-config target="NSPhotoLibraryUsageDescription" file="*-Info.plist" mode="merge">
+			<string>Need to access photo library for uploading photos for your account profile and product inquiries.</string>
+		</edit-config>
+		<edit-config target="NSLocationAlwaysUsageDescription" file="*-Info.plist" mode="merge">
+			<string>Need location access to find shops nearby</string>
+		</edit-config>
+		<edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+			<string>Need location access to find shops nearby</string>
+		</edit-config>
 	</platform>
 	<platform name="android">
+		<allow-intent href="market:*" />
 		<config-file parent="/*" target="AndroidManifest.xml">
 			<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 		</config-file>
+		
 		<preference name="SplashMaintainAspectRatio" value="true" />
 		<preference name="SplashShowOnlyFirstTime" value="true" />
+		<preference name="AndroidLaunchMode" value="singleTask"/>
+		<preference name="AndroidPersistentFileLocation" value="Compatibility" />
+		
 		<icon density="ldpi" src="res/icon/android/ldpi.png"/>
         <icon density="mdpi" src="res/icon/android/mdpi.png"/>
         <icon density="hdpi" src="res/icon/android/hdpi.png"/>
@@ -108,26 +126,21 @@
     </platform>
     <icon src="www/icon.png" />
     <access origin="*" />
+    <allow-navigation href="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <platform name="android">
-        <allow-intent href="market:*" />
-    </platform>
-    <platform name="ios">
-        <allow-intent href="itms:*" />
-    </platform>
-    <platform name="ios">
-        <allow-intent href="itms-apps:*" />
-    </platform>
 	
 	<preference name="windows-target-version" value="10.0" />
 	<preference name="phonegap-version" value="cli-9.0.0" />
-	<preference name="AndroidLaunchMode" value="singleTask"/>
-	<preference name="AndroidPersistentFileLocation" value="Compatibility" />
+	
+	<preference name="StatusBarOverlaysWebView" value="true" />
+	<preference name="StatusBarBackgroundColor" value="#000000" />
+	<preference name="StatusBarStyle" value="lightcontent" />
+	<preference name="StatusBarDefaultScrollToTop" value="false" />
 	
 	<plugin name="cordova-plugin-statusbar"/>
     <plugin name="cordova-plugin-geolocation" />
@@ -147,21 +160,15 @@
     <plugin name="cordova-plugin-bluetooth-printer" spec="https://github.com/jybanez/BluetoothPrinter" />
     <plugin name="cordova-plugin-camera" spec="https://github.com/apache/cordova-plugin-camera.git" />
 	<plugin name="phonegap-plugin-speech-synthesis" spec="https://github.com/macdonst/SpeechSynthesisPlugin" />
-	<!--
 	<plugin name="cordova-plugin-background-mode" />
-	-->
+
 	<plugin name="cordova-plugin-androidx" />
 	<plugin name="cordova-plugin-androidx-adapter" />
 	
 	<plugin name="cordova-httpd" spec="https://github.com/floatinghotpot/cordova-httpd.git" />
 	
-	<edit-config target="NSPhotoLibraryUsageDescription" file="*-Info.plist" mode="merge">
-		<string>Need to access photo library for uploading photos for your account profile and product inquiries.</string>
-	</edit-config>
-	<edit-config target="NSLocationAlwaysUsageDescription" file="*-Info.plist" mode="merge">
-		<string>Need location access to find shops nearby</string>
-	</edit-config>
-	<edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
-		<string>Need location access to find shops nearby</string>
-	</edit-config>
+	<plugin name="cordova-plugin-local-notification" />
+	<plugin name="cordova-plugin-app-version" />
+	
+	
 </widget>

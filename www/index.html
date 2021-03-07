@@ -4,12 +4,12 @@
     	<meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, height=device-height, viewport-fit=cover">
         <meta http-equiv="Content-Security-Policy" content="
-        	default-src * 'self' file: data: blob: gap: filesystem: cdvfile:; 
-        	media-src * 'self' file: data: blob: filesystem:;  
-        	script-src https: http: 'unsafe-inline' 'unsafe-eval' 'self' file: filesystem:; 
-        	style-src https: http: 'unsafe-inline' 'unsafe-eval' 'self' file: filesystem:; 
-        " />
-         <title>Century Pacific Food Inc</title>
+        	default-src * file: filesystem: cdvfile: https: http: gap: data: blob:; 
+        	media-src  * file: filesystem: cdvfile: https: http: gap: 'unsafe-inline' data: blob: ;  
+        	script-src  * file: filesystem: cdvfile: https: http: gap: 'unsafe-inline' 'unsafe-eval' ; 
+        	style-src  * file: filesystem: cdvfile: https: http: gap: 'unsafe-inline' 'unsafe-eval' 
+        " /> 
+        <title>Project Titan</title>
         <script type="text/javascript" src="js/mootools.js"></script>
         <script type="text/javascript" src="js/mootools.helper.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
@@ -33,6 +33,42 @@
         <script type="text/javascript" src="cordova.js"></script>
     </head>
     <body class="wizaya fullHeight overflow hidden empty">
-    	
+    	<div class="splash poster">
+    		<div class="header">{header}</div>
+    		<div class="container">
+    			<div class="content">
+    				<div>
+    					<div class="logo"></div>	
+    				</div>
+	    			<div>
+	    				<div class="spinner"></div>
+	    			</div>
+	    			<div>
+	    				<div class="message">{message}</div>
+	    			</div>
+	    		</div>
+    		</div>
+    		<div class="footer">
+    			<div class="content">
+    				<div class="connection">{connection}</div>
+    				<div class="version">{version}</div>	
+    			</div>    			
+    		</div>
+    	</div>
+    	<div class="offline poster">
+    		<div class="container">
+				<div class="content">
+					<div class="logo">
+						<div class="icon">
+							
+						</div>
+					</div>
+					<div class="message">{message}</div>	
+					<div class="controls">
+						<button>Try Again</button>
+					</div>
+				</div>	
+			</div>
+    	</div>
     </body>
 </html>

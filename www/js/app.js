@@ -22,7 +22,10 @@ var App = {
 	Loader:new Class({
 		Implements:[Events,Options],
 		options:{
-			idleTimer:10000
+			idleTimer:10000,
+			splash:{
+				//message:'Please wait...'
+			}
 		},
 		$assetsUpdated:false,
 		initialize:function(app,options){
@@ -51,8 +54,6 @@ var App = {
 			this.$body = document.id(window.document.body);
 			this.$head = document.id(window.document.head);
 			
-			this.initializeNetwork();
-			
 			this.$assets = new Array();
 			this.$isLoaded = new Array();
 			
@@ -61,19 +62,30 @@ var App = {
 				new App.Interface.Log();	
 			}
 			
-			App.FileSystem.getInstance('TEMPORARY',{
-				base:'/'+this.$id,
-				onReady:function(instance){
-					this.$fileSystem = instance;
-					this.run();
-					return; 
-					
-					this.$fileSystem.clear(function(){
-						this.run();
-					}.bind(this)); 
-					//this.reset();
-				}.bind(this)
-			});
+			this.initializeAssets();
+			cordova.getAppVersion.getVersionNumber(function (version) {
+				this.$version = version;
+				App.FileSystem.getInstance('TEMPORARY',{
+					base:'/'+this.$id,
+					onReady:function(instance){
+						this.$fileSystem = instance;
+						
+						this.initializeNetwork.delay(1000,this,function(){
+							this.run(function(){
+								this.hideSplash();
+							}.bind(this));	
+						}.bind(this));
+						
+						/* 
+						this.$fileSystem.clear(function(){
+							this.run();
+						}.bind(this)); 
+						//this.reset();
+						*/
+					}.bind(this)
+				});
+			}.bind(this));
+			
 			App.$instance = this;
 			 
 			window.addEvents({
@@ -88,7 +100,37 @@ var App = {
 				}
 			});
 		},
-		initializeNetwork:function(){
+		initializeAssets:function(){
+			this.$splash = this.$body.getElement('.splash.poster');
+			this.$splashTemplate = this.$splash.get('html');
+			this.$splash.empty();
+			
+			this.$offline = this.$body.getElement('.offline.poster');
+			this.$offlineTemplate = this.$offline.get('html');
+			this.$offline.empty();
+			
+			this.$body.empty().removeClass('empty');
+		},
+		initializeNetwork:function(onInitialize){
+			this.updateNetwork();
+		    
+		    document.addEventListener("offline", function(){
+		    	this.updateNetwork();
+		    	window.fireEvent('onOffline');
+		    	console.log('App Offline');
+		    }.bind(this), false);
+		    document.addEventListener("online", function(){
+		    	this.updateNetwork();
+		    	window.fireEvent('onOnline');
+		    	console.log('App Online');
+		    }.bind(this), false);
+			
+			if ($type(onInitialize)=='function') {
+				onInitialize();
+			}
+		},
+		updateNetwork:function(){
+			console.log('Check Internet Connection');
 			var networkState = navigator.connection.type;
 
 		    var states = {};
@@ -102,46 +144,25 @@ var App = {
 		    states[Connection.NONE]     = 'No network connection';
 		    
 		    window.$connection = states[networkState];
-		    window.$isOnline = (window.$connection==Connection.UNKNOWN && device.platform=='browser') || window.$connection!=Connection.NONE;
-		      
+		    window.$isOnline = device.platform=='browser'?networkState==Connection.UNKNOWN:networkState!=Connection.NONE;
 		    console.log(window.$connection,window.$isOnline);
 		    console.log(navigator.connection);
-		    document.addEventListener("offline", function(){
-		    	window.$isOnline = false;
-		    	window.fireEvent('onOffline');
-		    	console.log('App Offline');
-		    }.bind(this), false);
-		    document.addEventListener("online", function(){
-		    	window.$isOnline = true;
-		    	window.fireEvent('onOnline');
-		    	console.log('App Online');
-		    }.bind(this), false);
 		},
 		getFileSystem:function(){
 			return this.$fileSystem;
 		},
-		createOffline:function(onCreate){
-			if (!$defined(this.$offline)) {
-				this.$offline = new Element('div',{'class':'offline'});
-				new Request({
-					method:'get',
-					url:'offline.html',
-					onSuccess:function(response){
-						this.$offlineTemplate = response;
-						onCreate();
-					}.bind(this)
-				}).send();
-			} else {
-				onCreate();
-			}
+		showSplash:function(options){
+			this.$splash.inject(this.$body)
+				.set('html',this.$splashTemplate.substitute($merge(this.options.splash,options)));
+		},
+		hideSplash:function(){
+			this.$splash.destroy();
 		},
 		showOffline:function(message,onRetry){
-			this.createOffline(function(){
-				var button = this.$offline.inject(this.$body).set('html',this.$offlineTemplate.substitute({
-					message:message
-				})).getElement('button');
-				button.addEvent('click',onRetry);
-			}.bind(this));
+			var button = this.$offline.inject(this.$body).set('html',this.$offlineTemplate.substitute({
+				message:message
+			})).getElement('button');
+			button.addEvent('click',onRetry);
 		},
 		hideOffline:function(){
 			if ($defined(this.$offline)) {
@@ -189,8 +210,9 @@ var App = {
 				var fileName = 'data.json';
 				this.$fileSystem.getEntry('/'+fileName,function(fileEntry){
 					this.$fileSystem.readFile(fileEntry,function(content){
+						this.$data = Json.decode(content);
+						console.log('Cached App Data Found',this.$data);
 						if ($type(onGet)=='function') {
-							this.$data = Json.decode(content);
 							onGet(this.$data);
 						}
 					}.bind(this),onError);
@@ -295,12 +317,14 @@ var App = {
 			var target = url.get('directory')+url.get('file');
 			console.log('App Load Asset',target);
 			this.$fileSystem.getEntry(target,function(fileEntry){
+				console.log('Asset Local Cache',fileEntry);
 				onLoad(fileEntry.toURL());
 			}.bind(this),function(){
 				onLoad(source);
 				this.startSpin('Downloading Updates. Please wait...');
 				new App.Localizer(this.$fileSystem,{
 					onSave:function(item,fileEntry){
+						console.log('Generated Local Cache',target,fileEntry);
 						//onLoad(fileEntry.toURL());
 					}.bind(this),
 					onDownloadComplete:function(){
@@ -312,42 +336,56 @@ var App = {
 				}]).download();	
 			}.bind(this));				
 		},
-		run:function(){
-			this.getData(function(data){
-				console.log('App Data',data);
-				var body = this.$body.appendHTML(data.body,'top');
-				var head = this.$head;
-				//this.startSpin('Updating. Please wait...');
-				this.loadAsset(data.stylesheet,function(styleUrl){
-					console.log(data.stylesheet,styleUrl);
-					new Asset.css(styleUrl,{
-						onload:function(){
-							new Element('style',{
-								type:'text/css'
-							}).inject(head).set('text',data.inlineStyles);		
-						}.bind(this)
-					});					
-					this.loadAsset(data.script,function(scriptUrl){ 
-						//console.log(data.script,scriptUrl);
-						new Asset.javascript(scriptUrl,{
+		run:function(onRun){
+			this.showSplash({
+				connection:window.$connection+' - '+(window.$isOnline?'Online':'Offline'),
+		    	version:'v'+this.$version
+		    });
+			if (!window.$isOnline) {
+				this.showOffline('No internet connection found. Please check your connection and try again.',function(){
+					this.hideOffline();
+					this.updateNetwork();
+					this.run(onRun);
+				}.bind(this));
+			} else {
+				this.getData(function(data){
+					console.log('App Data',data);
+					var body = this.$body.appendHTML(data.body,'top');
+					var head = this.$head;
+					//this.startSpin('Updating. Please wait...');
+					this.loadAsset(data.stylesheet,function(styleUrl){
+						console.log(data.stylesheet,styleUrl);
+						new Asset.css(styleUrl,{
 							onload:function(){
-								$extend(TPH,{
-									$remote:this.app
-								});
-								//return;
-								new Element('script',{
-									type:'text/javascript'
-								}).inject(head).set('text',data.inlineScripts);	
+								new Element('style',{
+									type:'text/css'
+								}).inject(head).set('text',data.inlineStyles);		
 							}.bind(this)
-						});
-						window.addEvent('onPlatformReady',function(instance){
-							body.removeClass.delay(500,body,['empty']);
-						});
-					}.bind(this));	
-				}.bind(this));				
-			}.bind(this),function(e){
-				console.log(e);
-			}.bind(this));
+						});					
+						this.loadAsset(data.script,function(scriptUrl){ 
+							console.log(data.script,scriptUrl);
+							new Asset.javascript(scriptUrl,{
+								onload:function(){
+									$extend(TPH,{
+										$remote:this.app
+									});
+									//return;
+									new Element('script',{
+										type:'text/javascript'
+									}).inject(head).set('text',data.inlineScripts);	
+								}.bind(this)
+							});
+							window.addEvent('onPlatformReady',function(instance){
+								if ($type(onRun)=='function') {
+									onRun();
+								}
+							}.bind(this));
+						}.bind(this));	
+					}.bind(this));				
+				}.bind(this),function(e){
+					console.log(e);
+				}.bind(this));
+			}
 		}
 	})
 };
