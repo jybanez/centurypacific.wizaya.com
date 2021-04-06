@@ -20,6 +20,8 @@
     	<allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         
+        <preference name="CameraUsesGeolocation" value="true" />
+        
 		<icon src="res/icon/ios/icon-1024.png" width="1024" height="1024"/>
         <icon src="res/icon/ios/icon-small.png" width="29" height="29"/>
         <icon src="res/icon/ios/icon-small@2x.png" width="58" height="58"/>
@@ -80,6 +82,7 @@
 		<allow-intent href="market:*" />
 		<config-file parent="/*" target="AndroidManifest.xml">
 			<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+			<uses-permission android:name="android.permission.CAMERA" />
 		</config-file>
 		<edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application/activity[@android:name='MainActivity']">
 	        <activity android:name="MainActivity" android:windowSoftInputMode="adjustPan" />
@@ -144,6 +147,8 @@
 	<preference name="StatusBarBackgroundColor" value="#000000" />
 	<preference name="StatusBarStyle" value="lightcontent" />
 	<preference name="StatusBarDefaultScrollToTop" value="false" />
+	
+	<preference name="cordova.plugins.diagnostic.modules" value="LOCATION BLUETOOTH WIFI CAMERA NOTIFICATIONS MICROPHONE CONTACTS CALENDAR REMINDERS MOTION NFC EXTERNAL_STORAGE" />
 	
 	<plugin name="cordova-plugin-statusbar"/>
     <plugin name="cordova-plugin-geolocation" />
