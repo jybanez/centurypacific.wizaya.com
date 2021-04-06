@@ -82,8 +82,14 @@
 		<allow-intent href="market:*" />
 		<config-file parent="/*" target="AndroidManifest.xml">
 			<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+			<uses-permission android:name="android.permission.MICROPHONE" />
 			<uses-permission android:name="android.permission.RECORD_AUDIO" />
+			<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+			
 			<uses-permission android:name="android.permission.CAMERA" />
+			<uses-permission android:name="android.permission.CAPTURE_VIDEO_OUTPUT" />
+			<uses-permission android:name="android.permission.CAPTURE_SECURE_VIDEO_OUTPUT" />
+			<uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT " />
 		</config-file>
 		<edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application/activity[@android:name='MainActivity']">
 	        <activity android:name="MainActivity" android:windowSoftInputMode="adjustPan" />
