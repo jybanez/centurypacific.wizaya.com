@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.wizaya.centurypacific" 
-	version="1.0.19" 
+	version="1.0.20" 
 	versionCode="" 
 	xmlns="http://www.w3.org/ns/widgets" 
 	xmlns:android="http://schemas.android.com/apk/res/android" 
@@ -78,6 +78,16 @@
 		<edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
 			<string>Need location access to find shops nearby</string>
 		</edit-config>
+		<config-file target="*-Info.plist" parent="NSAppTransportSecurity">
+	      	<dict>
+	      		<key>NSAllowsArbitraryLoads</key>
+	          	<true/>
+	      		<key>NSAllowsArbitraryLoadsInWebContent</key>
+				<true/>
+				<key>NSAllowsArbitraryLoadsForMedia</key>
+				<true/>
+	      	</dict>
+	  	</config-file>
 	</platform>
 	<platform name="android">
 		<allow-intent href="market:*" />
