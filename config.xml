@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.wizaya.centurypacific" 
-	version="1.0.21" 
+	version="1.0.22" 
 	versionCode="" 
 	xmlns="http://www.w3.org/ns/widgets" 
 	xmlns:android="http://schemas.android.com/apk/res/android" 
@@ -202,6 +202,8 @@
 	
 	<plugin name="cordova-plugin-local-notification" />
 	<plugin name="cordova-plugin-app-version" />
+	
+	<plugin name="cordova-plugin-iosrtc" />
 	
 	
 </widget>
