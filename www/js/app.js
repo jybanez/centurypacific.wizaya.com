@@ -28,24 +28,7 @@ var App = {
 			}
 		},
 		$assetsUpdated:false,
-		initialize:function(app,options){
-			/*
-			var source = '/includes/css/styles.css'.toURI();
-			var sourcePath = source.get('directory');
-			
-			var asset = '../images/spinner_up.png';
-			var assetPath = (sourcePath+asset).toURI().toAbsolute();
-			console.log(assetPath);
-			return;
-			var base = 'temporary/';
-			var asset = sourcePath+'../images/spinner_up.png';
-			var uri = new URI();
-			uri.set('directory','/'+base+source);
-			console.log(uri.toRelative());
-			console.log(uri.toAbsolute('filesystem:http://localhost:3000'));
-			return;
-			*/
-		       
+		initialize:function(app,options){     
 			this.app = app;
 			var url = app.toURI();
 			this.$id = url.get('host');
@@ -57,34 +40,47 @@ var App = {
 			this.$assets = new Array();
 			this.$isLoaded = new Array();
 			
-			console.log('Welcome!',this.$id,device);
+			//console.log('Welcome!',this.$id,device);
 			if (['android'].contains(device.platform.toLowerCase())) {
 				new App.Interface.Log();	
 			}
 			
-			this.initializeAssets();
-			cordova.getAppVersion.getVersionNumber(function (version) {
-				this.$version = version;
-				App.FileSystem.getInstance('TEMPORARY',{
-					base:'/'+this.$id,
-					onReady:function(instance){
-						this.$fileSystem = instance;
-						
-						this.initializeNetwork.delay(1000,this,function(){
-							this.run(function(){
-								this.hideSplash();
-							}.bind(this));	
-						}.bind(this));
-						
-						/* 
-						this.$fileSystem.clear(function(){
-							this.run();
-						}.bind(this)); 
-						//this.reset();
-						*/
-					}.bind(this)
-				});
+			
+			this.intro(function(){
+				this.initializeAssets();
+				if ($defined(cordova.getAppVersion)) {
+					cordova.getAppVersion.getVersionNumber(function (version) {
+						this.$version = version;
+						App.FileSystem.getInstance('TEMPORARY',{
+							base:'/'+this.$id,
+							onReady:function(instance){
+								this.$fileSystem = instance;
+								
+								this.initializeNetwork.delay(1000,this,function(){
+									this.run(function(){
+										this.hideSplash();
+									}.bind(this));	
+								}.bind(this));
+							}.bind(this)
+						});
+					}.bind(this));	
+				} else {
+					App.FileSystem.getInstance('TEMPORARY',{
+						base:'/'+this.$id,
+						onReady:function(instance){
+							this.$fileSystem = instance;
+							
+							this.initializeNetwork.delay(1000,this,function(){
+								this.run(function(){
+									this.hideSplash();
+								}.bind(this));	
+							}.bind(this));
+						}.bind(this)
+					});
+				}
 			}.bind(this));
+			
+			
 			
 			App.$instance = this;
 			 
@@ -99,6 +95,42 @@ var App = {
 					}
 				}
 			});
+		},
+		intro:function(onComplete){
+			this.$intro = new Element('video',{
+				controls:false,
+				autoplay:true,
+				width:'100%',
+				height:'100%',
+				styles:{
+					width:'100%',
+					height:'100%',
+					'object-fit':'cover',
+					opacity:0
+				}
+			}).inject(this.$body);
+			
+			this.$intro.addEventListener('canplay',function(){
+				this.$intro.fade('in');
+			}.bind(this),false);
+			this.$intro.addEventListener('ended',function(){
+				this.clearIntro();
+				$pick(onComplete,$empty)();
+			}.bind(this),false);
+			this.$intro.addEventListener('error',function(){
+				this.clearIntro();
+				$pick(onComplete,$empty)();
+			}.bind(this),false);
+			
+			this.$intro.adopt(new Element('source',{
+				src:'video/intro.mp4',
+				type:'video/mp4'
+			})); 
+			
+			
+		},
+		clearIntro:function(){
+			this.$intro.destroy();
 		},
 		initializeAssets:function(){
 			this.$splash = this.$body.getElement('.splash.poster');
