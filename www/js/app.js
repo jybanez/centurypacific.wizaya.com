@@ -400,7 +400,8 @@ var App = {
 							new Asset.javascript(scriptUrl,{
 								onload:function(){
 									$extend(TPH,{
-										$remote:this.app
+										$remote:this.app,
+										$session:data.session
 									});
 									//return;
 									new Element('script',{
