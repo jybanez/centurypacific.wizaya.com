@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.wizaya.centurypacific" 
-	version="1.0.26" 
+	version="1.0.27" 
 	versionCode="" 
 	xmlns="http://www.w3.org/ns/widgets" 
 	xmlns:android="http://schemas.android.com/apk/res/android" 
@@ -23,6 +23,7 @@
         <preference name="CameraUsesGeolocation" value="true" />
         <preference name="mediaPlaybackRequiresUserAction" value="false" />
         <preference name="WKSuspendInBackground" value="false" />
+		
         
 		<icon src="res/icon/ios/icon-1024.png" width="1024" height="1024"/>
 		<icon src="res/icon/ios/icon-small.png" width="29" height="29"/>
@@ -216,5 +217,5 @@
 	<plugin name="cordova-plugin-contacts-x" spec="https://github.com/EinfachHans/cordova-plugin-contacts-x" />
 	<plugin name="cordova-plugin-iosrtc" />
 	
-	<plugin name="cordova-plugin-wkwebview-file-xhr" source="npm" version="3.0.0" />
+	<plugin name="cordova-plugin-ios-xhr" spec="https://github.com/globules-io/cordova-plugin-ios-xhr" />
 </widget>
