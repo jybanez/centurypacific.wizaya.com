@@ -10,13 +10,14 @@
         	style-src  * file: filesystem: cdvfile: https: http: gap: 'unsafe-inline' 'unsafe-eval' 
         " /> 
         <title>Project Titan</title>
+		<!--
         <script type="text/javascript" src="js/mootools.js"></script>
         <script type="text/javascript" src="js/mootools.helper.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
         <script type="text/javascript" src="js/app.interface.js"></script>
         <script type="text/javascript" src="js/app.filesystem.js"></script>
         <script type="text/javascript" src="js/app.localizer.js"></script>
-        
+        -->
         <link rel="stylesheet" href="css/font-awesome.min.css"/>
         <link rel="stylesheet" href="css/realty.css"/>
         <link rel="stylesheet" href="css/styles.css" />
@@ -24,7 +25,35 @@
         	document.addEventListener('deviceready', function(){
         		if (!$defined(window.$app)) {
     				console.log('Loading App');
-    				window.$app = new App.Loader('https://centurypacific.wizaya.com/wizaya.app');	
+					var endPoint = 'https://centurypacific.wizaya.com/wizaya.app';
+					var scripts = [	
+						'js/mootools.js',
+						'js/mootools.helper.js',
+						'js/app.js',
+						'js/app.interface.js',
+						'js/app.filesystem.js',
+						'js/app.localizer.js'
+					];
+					function loadScripts(scripts,onComplete){
+						if (scripts.length){
+							var script = scripts.shift();
+							var head = document.getElementsByTagName('head')[0];
+							var el = document.createElement('script');
+							el.type = 'text/javascript';
+							el.onload = function(){
+								loadScripts(scripts,onComplete);
+							};
+							el.src = script;
+							head.appenChild(el);
+						} else {
+							onComplete();
+						}
+					}
+					
+					loadScripts(scripts,function(){
+						window.$app = new App.Loader(endPoint);	
+					});
+    				
     			} else {
     				console.log('App already loaded');
     			}
