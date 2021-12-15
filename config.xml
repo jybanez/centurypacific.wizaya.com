@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.wizaya.centurypacific" 
-	version="1.0.25" 
+	version="1.0.26" 
 	versionCode="" 
 	xmlns="http://www.w3.org/ns/widgets" 
 	xmlns:android="http://schemas.android.com/apk/res/android" 
@@ -216,5 +216,5 @@
 	<plugin name="cordova-plugin-contacts-x" spec="https://github.com/EinfachHans/cordova-plugin-contacts-x" />
 	<plugin name="cordova-plugin-iosrtc" />
 	
-	
+	<plugin name="cordova-plugin-wkwebview-file-xhr" source="npm" version="3.0.0" />
 </widget>
