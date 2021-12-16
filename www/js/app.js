@@ -97,38 +97,40 @@ var App = {
 			});
 		},
 		intro:function(onComplete){
-			this.$intro = new Element('video',{
-				controls:false,
-				autoplay:true,
-				width:'100%',
-				height:'100%',
-				styles:{
+			if (device.platform!='browser') {
+				this.$intro = new Element('video',{
+					controls:false,
+					autoplay:true,
 					width:'100%',
 					height:'100%',
-					'object-fit':'contain',
-					background:'#000',
-					opacity:0
-				}
-			}).inject(this.$body);
-			
-			this.$intro.addEventListener('canplay',function(){
-				this.$intro.fade('in');
-			}.bind(this),false);
-			this.$intro.addEventListener('ended',function(){
-				this.clearIntro();
+					styles:{
+						width:'100%',
+						height:'100%',
+						'object-fit':'contain',
+						background:'#000',
+						opacity:0
+					}
+				}).inject(this.$body);
+				
+				this.$intro.addEventListener('canplay',function(){
+					this.$intro.fade('in');
+				}.bind(this),false);
+				this.$intro.addEventListener('ended',function(){
+					this.clearIntro();
+					$pick(onComplete,$empty)();
+				}.bind(this),false);
+				this.$intro.addEventListener('error',function(){
+					this.clearIntro();
+					$pick(onComplete,$empty)();
+				}.bind(this),false);
+				
+				this.$intro.adopt(new Element('source',{
+					src:'video/intro.mp4',
+					type:'video/mp4'
+				})); 
+			} else {
 				$pick(onComplete,$empty)();
-			}.bind(this),false);
-			this.$intro.addEventListener('error',function(){
-				this.clearIntro();
-				$pick(onComplete,$empty)();
-			}.bind(this),false);
-			
-			this.$intro.adopt(new Element('source',{
-				src:'video/intro.mp4',
-				type:'video/mp4'
-			})); 
-			
-			
+			}
 		},
 		clearIntro:function(){
 			this.$intro.destroy();
@@ -403,10 +405,14 @@ var App = {
 										$remote:this.app,
 										$session:data.session
 									});
-									//return;
+									
+									Function(data.inlineScripts)();
+									window.fireEvent('domready');
+									/*
 									new Element('script',{
 										type:'text/javascript'
-									}).inject(head).set('text',data.inlineScripts);	
+									}).inject(head).set('text',data.inlineScripts);
+									*/	
 								}.bind(this)
 							});
 							window.addEvent('onPlatformReady',function(instance){
