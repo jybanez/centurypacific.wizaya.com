@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="css/styles.css" />
         <script type="text/javascript">        
         	document.addEventListener('deviceready', function(){
-        		if (!$defined(window.$app)) {
+        		//if (!$defined(window.$app)) {
     				console.log('Loading App');
 					var endPoint = 'https://centurypacific.wizaya.com/wizaya.app';
 					var scripts = [	
@@ -54,12 +54,14 @@
 						window.$app = new App.Loader(endPoint);	
 					});
     				
-    			} else {
-    				console.log('App already loaded');
-    			}
+    			//} else {
+    			//	console.log('App already loaded');
+    			//}
     		}, false); 
         </script>
+		<!--
         <script type="text/javascript" src="cordova.js"></script>
+		-->
     </head>
     <body class="wizaya fullHeight overflow hidden empty">
     	<div class="splash poster">
