@@ -21,7 +21,8 @@
         <allow-intent href="itms-apps:*" />
         
         <preference name="CameraUsesGeolocation" value="true" />
-        <preference name="mediaPlaybackRequiresUserAction" value="false" />
+        <preference name="MediaPlaybackRequiresUserAction" value="false" />
+		<preference name="AllowInlineMediaPlayback" value="true" />
         <preference name="WKSuspendInBackground" value="false" />
 		
         

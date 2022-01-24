@@ -97,10 +97,12 @@ var App = {
 			});
 		},
 		intro:function(onComplete){
-			if (device.platform!='browser') {
+			if (false){ //device.platform!='browser') {
 				this.$intro = new Element('video',{
 					controls:false,
 					autoplay:true,
+					playsinline:true,
+					'webkit-playsinline':true,
 					width:'100%',
 					height:'100%',
 					styles:{
