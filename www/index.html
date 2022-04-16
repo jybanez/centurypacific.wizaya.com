@@ -18,21 +18,34 @@
         <script type="text/javascript" src="js/app.filesystem.js"></script>
         <script type="text/javascript" src="js/app.localizer.js"></script>
         -->
-        <link rel="stylesheet" href="css/font-awesome.min.css"/>
-        <link rel="stylesheet" href="css/realty.css"/>
-        <link rel="stylesheet" href="css/styles.css" />
+        <link rel="stylesheet" href="includes/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="includes/css/realty.css"/>
+        <link rel="stylesheet" href="includes/css/styles.css" />
+        <link rel="stylesheet" href="includes/css/common.css" />
+        <link rel="stylesheet" href='components/com_shop/assets/css/common.css' />
+        <link rel="stylesheet" href='components/com_shop/assets/css/travelcon.css' />
+        <link rel="stylesheet" href='templates/v1/css/common.css' />
+        <link rel="stylesheet" href='templates/shop/css/common.css' />
         <script type="text/javascript">        
         	document.addEventListener('deviceready', function(){
         		//if (!$defined(window.$app)) {
     				console.log('Loading App');
-					var endPoint = 'https://centurypacific.wizaya.com/wizaya.app';
+					var endPoint = 'https://centurypacific.wizaya.com/wizaya.appx';
 					var scripts = [	
 						'js/mootools.js',
 						'js/mootools.helper.js',
 						'js/app.js',
 						'js/app.interface.js',
 						'js/app.filesystem.js',
-						'js/app.localizer.js'
+						'js/app.localizer.js',
+						'includes/js/common.js',
+						'components/com_shop/assets/js/common.js',
+			            'components/com_shop/assets/js/common.inputs.js',
+			            'components/com_shop/assets/js/app.store.js',
+			            'components/com_shop/assets/js/client.js',
+			            'components/com_shop/assets/js/extra.js',
+			            'templates/shop/js/common.js',
+			            'components/com_engine/assets/js/common.js'
 					];
 					function loadScripts(scripts,onComplete){
 						if (scripts.length){
