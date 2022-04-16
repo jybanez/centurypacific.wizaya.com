@@ -350,28 +350,33 @@ var App = {
 			}.bind(this),onError);
 		},
 		loadAsset:function(source,onLoad){
-			var url = source.toURI();
-			var target = url.get('directory')+url.get('file');
-			console.log('App Load Asset',target);
-			this.$fileSystem.getEntry(target,function(fileEntry){
-				console.log('Asset Local Cache',fileEntry);
-				onLoad(fileEntry.toURL());
-			}.bind(this),function(){
-				onLoad(source);
-				this.startSpin('Downloading Updates. Please wait...');
-				new App.Localizer(this.$fileSystem,{
-					onSave:function(item,fileEntry){
-						console.log('Generated Local Cache',target,fileEntry);
-						//onLoad(fileEntry.toURL());
-					}.bind(this),
-					onDownloadComplete:function(){
-						this.stopSpin('Updates Complete!');
-					}.bind(this)
-				}).setItems([{
-					source:source,
-					target:target
-				}]).download();	
-			}.bind(this));				
+			if ($defined(source)) {
+				var url = source.toURI();
+				var target = url.get('directory')+url.get('file');
+				console.log('App Load Asset',target);
+				this.$fileSystem.getEntry(target,function(fileEntry){
+					console.log('Asset Local Cache',fileEntry);
+					onLoad(fileEntry.toURL());
+				}.bind(this),function(){
+					onLoad(source);
+					this.startSpin('Downloading Updates. Please wait...');
+					new App.Localizer(this.$fileSystem,{
+						onSave:function(item,fileEntry){
+							console.log('Generated Local Cache',target,fileEntry);
+							//onLoad(fileEntry.toURL());
+						}.bind(this),
+						onDownloadComplete:function(){
+							this.stopSpin('Updates Complete!');
+						}.bind(this)
+					}).setItems([{
+						source:source,
+						target:target
+					}]).download();	
+				}.bind(this));	
+			} else {
+				$pick(onLoad,$empty)();
+			}
+							
 		},
 		run:function(onRun){
 			this.showSplash({
@@ -391,32 +396,38 @@ var App = {
 					var head = this.$head;
 					//this.startSpin('Updating. Please wait...');
 					this.loadAsset(data.stylesheet,function(styleUrl){
-						console.log(data.stylesheet,styleUrl);
-						new Asset.css(styleUrl,{
-							onload:function(){
-								new Element('style',{
-									type:'text/css'
-								}).inject(head).set('text',data.inlineStyles);		
-							}.bind(this)
-						});					
-						this.loadAsset(data.script,function(scriptUrl){ 
-							console.log(data.script,scriptUrl);
-							new Asset.javascript(scriptUrl,{
+						if ($defined(styleUrl)) {
+							console.log(data.stylesheet,styleUrl);
+							new Asset.css(styleUrl,{
 								onload:function(){
-									$extend(TPH,{
-										$remote:this.app,
-										$session:data.session
-									});
-									
-									Function(data.inlineScripts)();
-									window.fireEvent('domready');
-									/*
-									new Element('script',{
-										type:'text/javascript'
-									}).inject(head).set('text',data.inlineScripts);
-									*/	
+									new Element('style',{
+										type:'text/css'
+									}).inject(head).set('text',data.inlineStyles);		
 								}.bind(this)
-							});
+							});	
+						}
+											
+						this.loadAsset(data.script,function(scriptUrl){ 
+							if ($defined(scriptUrl)) {
+								console.log(data.script,scriptUrl);
+								new Asset.javascript(scriptUrl,{
+									onload:function(){
+										$extend(TPH,{
+											$remote:this.app,
+											$session:data.session
+										});
+										
+										Function(data.inlineScripts)();
+										window.fireEvent('domready');
+										/*
+										new Element('script',{
+											type:'text/javascript'
+										}).inject(head).set('text',data.inlineScripts);
+										*/	
+									}.bind(this)
+								});	
+							}
+							
 							window.addEvent('onPlatformReady',function(instance){
 								if ($type(onRun)=='function') {
 									onRun();
