@@ -426,6 +426,14 @@ var App = {
 										*/	
 									}.bind(this)
 								});	
+							} else {
+								$extend(TPH,{
+									$remote:this.app,
+									$session:data.session
+								});
+								
+								Function(data.inlineScripts)();
+								window.fireEvent('domready');
 							}
 							
 							window.addEvent('onPlatformReady',function(instance){

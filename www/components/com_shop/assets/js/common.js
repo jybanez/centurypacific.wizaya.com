@@ -296,19 +296,22 @@ var Shop = {
 		var fileSystem = Shop.getFileSystem();
 		if ($defined(fileSystem)) {
 			var link = url.toURI();
-			var servers = $pick(TPH.$servers,{});
-			//TPH.alert('System Message',Json.encode(servers));
-			if ($defined(servers.cdn)) {
-				var cdn = servers.cdn.toURI();
-				link.set('scheme',cdn.get('scheme'));
-				link.set('host',cdn.get('host'));
-				link.set('port',null);
-			} else if ($defined(TPH.$remote)) {
-				var remote = TPH.$remote.toURI();
-				link.set('scheme',remote.get('scheme'));
-				link.set('host',remote.get('host'));
-				link.set('port',null);
+			if (!$defined(window.cordova)) {
+				var servers = $pick(TPH.$servers,{});
+				//TPH.alert('System Message',Json.encode(servers));
+				if ($defined(servers.cdn)) {
+					var cdn = servers.cdn.toURI();
+					link.set('scheme',cdn.get('scheme'));
+					link.set('host',cdn.get('host'));
+					link.set('port',null);
+				} else if ($defined(TPH.$remote)) {
+					var remote = TPH.$remote.toURI();
+					link.set('scheme',remote.get('scheme'));
+					link.set('host',remote.get('host'));
+					link.set('port',null);
+				}	
 			}
+			
 			
 			if (!$defined(Shop.$localizer)) {
 				Shop.$localizer = new App.Localizer(fileSystem); 
@@ -2990,18 +2993,21 @@ Shop.Platform = new Class({
 				var sound = sounds.shift();
 				var soundURL = sound.url.toURI();
 				
-				var servers = $pick(TPH.$servers,{});
-				if ($defined(servers.cdn)) {
-					var cdn = servers.cdn.toURI();
-					soundURL.set('scheme',cdn.get('scheme'));
-					soundURL.set('host',cdn.get('host'));
-					soundURL.set('port','');
-				} else if ($defined(TPH.$remote)) {
-					var remote = TPH.$remote.toURI();
-					soundURL.set('scheme',remote.get('scheme'));
-					soundURL.set('host',remote.get('host'));
-					soundURL.set('port','');
+				if (!$defined(window.cordova)) {
+					var servers = $pick(TPH.$servers,{});
+					if ($defined(servers.cdn)) {
+						var cdn = servers.cdn.toURI();
+						soundURL.set('scheme',cdn.get('scheme'));
+						soundURL.set('host',cdn.get('host'));
+						soundURL.set('port','');
+					} else if ($defined(TPH.$remote)) {
+						var remote = TPH.$remote.toURI();
+						soundURL.set('scheme',remote.get('scheme'));
+						soundURL.set('host',remote.get('host'));
+						soundURL.set('port','');
+					}	
 				}
+				
 				//console.log('Preloading Sound',sound,soundURL.toString());
 				Shop.localize(soundURL.toString(),function(url){
 					//console.log(sound.type,url);

@@ -804,13 +804,14 @@ TPH.loadAssetFiles = function(files,onLoad){
 	if (files.length) {
 		var asset = files.shift();
 		var link = asset.toURI();
+		/*
 		if ($defined(TPH.$remote)) {
 			var remote = TPH.$remote.toURI();
 			link.set('scheme',remote.get('scheme'));
 			link.set('host',remote.get('host'));
 			link.set('port',null);
 		}
-		
+		*/
 		var ext = (/[.]/.exec(link)) ? /[^.]+$/.exec(link)[0] : undefined;
 		switch(ext){
 			case 'js':
@@ -6253,14 +6254,14 @@ TPH.Map = new Class({
 		this.mapInstance.off();
 		this.mapInstance.remove();
 	},
-	addItem:function(item){
+	addItem:function(item,options){
 		if (!this.hasItem(item.id)) {
 			this.$index.push(item.id);
 			this.options.list.push(item);
 			var lat = $type(item[this.options.latKey])=='string'?item[this.options.latKey].toFloat():item[this.options.latKey],
 				lng = $type(item[this.options.lngKey])=='string'?item[this.options.lngKey].toFloat():item[this.options.lngKey];
 			if (lat && lng) {
-				return this.addMarker(lat,lng,item);
+				return this.addMarker(lat,lng,item,options);
 			}	
 		}		
 		return this;
