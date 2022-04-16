@@ -6,18 +6,21 @@
 				doc.$scripts = new Array();
 			}
 			var link = url.toURI();
-			var servers = $pick(TPH.$servers,{});
-			if ($defined(servers.cdn) && $pick(useCDN,true)) {
-				var cdn = servers.cdn.toURI();
-				link.set('scheme',cdn.get('scheme'));
-				link.set('host',cdn.get('host'));
-				link.set('port',null);
-			} else if ($defined(TPH.$remote)) {
-				var remote = TPH.$remote.toURI();
-				link.set('scheme',remote.get('scheme'));
-				link.set('host',remote.get('host'));
-				link.set('port',null);
+			if (!$defined(window.cordova)) {
+				var servers = $pick(TPH.$servers,{});
+				if ($defined(servers.cdn) && $pick(useCDN,true)) {
+					var cdn = servers.cdn.toURI();
+					link.set('scheme',cdn.get('scheme'));
+					link.set('host',cdn.get('host'));
+					link.set('port',null);
+				} else if ($defined(TPH.$remote)) {
+					var remote = TPH.$remote.toURI();
+					link.set('scheme',remote.get('scheme'));
+					link.set('host',remote.get('host'));
+					link.set('port',null);
+				}	
 			}
+			
 			
 			Shop.localize(link.toString(),function(url){
 				//console.log('Script Localize ',link.toString(),url);
@@ -89,18 +92,21 @@
 				doc.$stylesheets = new Array();
 			}
 			var link = url.toURI();
-			var servers = $pick(TPH.$servers,{});
-			if ($defined(servers.cdn) && $pick(useCDN,true)) {
-				var cdn = servers.cdn.toURI();
-				link.set('scheme',cdn.get('scheme'));
-				link.set('host',cdn.get('host'));
-				link.set('port',null);
-			} else if ($defined(TPH.$remote)) {
-				var remote = TPH.$remote.toURI();
-				link.set('scheme',remote.get('scheme'));
-				link.set('host',remote.get('host'));
-				link.set('port',null);
+			if (!$defined(window.cordova)) {
+				var servers = $pick(TPH.$servers,{});
+				if ($defined(servers.cdn) && $pick(useCDN,true)) {
+					var cdn = servers.cdn.toURI();
+					link.set('scheme',cdn.get('scheme'));
+					link.set('host',cdn.get('host'));
+					link.set('port',null);
+				} else if ($defined(TPH.$remote)) {
+					var remote = TPH.$remote.toURI();
+					link.set('scheme',remote.get('scheme'));
+					link.set('host',remote.get('host'));
+					link.set('port',null);
+				}
 			}
+			
 			//link.set('port',null);
 			Shop.localize(link.toString(),function(url){
 				//console.log('Stylesheet Localize ',link.toString(),url);
