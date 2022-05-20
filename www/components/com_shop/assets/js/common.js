@@ -6299,7 +6299,9 @@ Shop.App.ContactSelect = new Class({
 		}
 	},
 	createContact:function(){
-		var data = {};
+		var data = {
+			aid:Shop.instance.account.id
+		};
 		this.fireEvent('onBeforeCreate',[data,this]);
 		this.editContact(data);
 	},
@@ -6339,7 +6341,8 @@ Shop.App.ContactSelect = new Class({
 						onComplete:function(result){
 							win.stopSpin();
 							if (result.status){
-								Shop.App[this.getName()].$items.push(result.data);
+								this.addItem(result.data);
+								//Shop.App[this.getName()].$items.push(result.data);
 								this.list();
 								this.fireEvent('onSave',[result.data,this]);
 								win.close();
@@ -6386,7 +6389,9 @@ Shop.App.CompanySelect = new Class({
 		this.editCompany();
 	},
 	editCompany:function(data){
-		var data = $pick(data,{});
+		var data = $pick(data,{
+			aid:Shop.instance.account.id
+		});
 		$extend(data,{aid:this.options.account.id});
 		
 		TPH.getWindow('__ShopCompanyForm__',{
@@ -6412,7 +6417,8 @@ Shop.App.CompanySelect = new Class({
 					onComplete:function(result){
 						win.stopSpin();
 						if (result.status){
-							Shop.App[this.getName()].$items.push(result.data);
+							this.addItem(result.data);
+							//Shop.App[this.getName()].$items.push(result.data);
 							this.list();
 							this.fireEvent('onSave',[result.data,this]);
 							win.close();

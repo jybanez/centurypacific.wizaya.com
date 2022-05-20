@@ -42,7 +42,7 @@ var App = {
 			
 			//console.log('Welcome!',this.$id,device);
 			if (['android'].contains(device.platform.toLowerCase())) {
-				new App.Interface.Log();	
+				//new App.Interface.Log();	
 			}
 			
 			
