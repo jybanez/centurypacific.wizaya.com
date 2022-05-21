@@ -424,8 +424,11 @@ var App = {
 											$remote:this.app,
 											$session:data.session
 										});
-										console.log('Running inline scripts...');
-										Function(data.inlineScripts)();
+										if ($defined(data.inlineScripts)) {
+											console.log('Running inline scripts...');
+											new Function(data.inlineScripts)();	
+										}
+										
 										console.log('Firing domready event');
 										window.fireEvent('domready');	
 									}.bind(this)
@@ -436,8 +439,10 @@ var App = {
 									$remote:this.app,
 									$session:data.session
 								});
-								console.log('Running inline scripts...');
-								Function(data.inlineScripts)();
+								if ($defined(data.inlineScripts)) {
+									console.log('Running inline scripts...');
+									new Function(data.inlineScripts)();	
+								}
 								console.log('Firing domready event');
 								window.fireEvent('domready');
 							}
