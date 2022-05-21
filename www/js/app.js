@@ -40,9 +40,9 @@ var App = {
 			this.$assets = new Array();
 			this.$isLoaded = new Array();
 			
-			//console.log('Welcome!',this.$id,device);
+			console.log('Welcome!',this.$id,device);
 			if (['android'].contains(device.platform.toLowerCase())) {
-				//new App.Interface.Log();	
+				new App.Interface.Log();	
 			}
 			
 			
@@ -395,6 +395,7 @@ var App = {
 					var body = this.$body.appendHTML(data.body,'top');
 					var head = this.$head;
 					//this.startSpin('Updating. Please wait...');
+					console.log('Load Stylesheet '+data.stylesheet);
 					this.loadAsset(data.stylesheet,function(styleUrl){
 						if ($defined(styleUrl)) {
 							console.log(data.stylesheet,styleUrl);
@@ -406,7 +407,7 @@ var App = {
 								}.bind(this)
 							});	
 						}
-											
+						console.log('Load Script '+data.script);					
 						this.loadAsset(data.script,function(scriptUrl){ 
 							if ($defined(scriptUrl)) {
 								console.log(data.script,scriptUrl);
