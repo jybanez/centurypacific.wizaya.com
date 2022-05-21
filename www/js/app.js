@@ -380,6 +380,7 @@ var App = {
 		},
 		run:function(onRun){
 			window.addEvent('onPlatformReady',function(instance){
+				console.log('Platform Ready!');
 				if ($type(onRun)=='function') {
 					onRun();
 				}
