@@ -50,6 +50,7 @@
 				function loadScripts(scripts,onComplete){
 					if (scripts.length){
 						var script = scripts.shift();
+						console.log('Loading script '+script);
 						var head = document.getElementsByTagName('head')[0];
 						var el = document.createElement('script');
 						el.type = 'text/javascript';
