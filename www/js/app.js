@@ -379,6 +379,11 @@ var App = {
 							
 		},
 		run:function(onRun){
+			window.addEvent('onPlatformReady',function(instance){
+				if ($type(onRun)=='function') {
+					onRun();
+				}
+			}.bind(this));
 			this.showSplash({
 				connection:window.$connection+' - '+(window.$isOnline?'Online':'Offline'),
 		    	version:'v'+this.$version
@@ -420,6 +425,7 @@ var App = {
 										});
 										console.log('Running inline scripts...');
 										Function(data.inlineScripts)();
+										console.log('Firing domready event');
 										window.fireEvent('domready');	
 									}.bind(this)
 								});	
@@ -431,14 +437,9 @@ var App = {
 								});
 								console.log('Running inline scripts...');
 								Function(data.inlineScripts)();
+								console.log('Firing domready event');
 								window.fireEvent('domready');
 							}
-							
-							window.addEvent('onPlatformReady',function(instance){
-								if ($type(onRun)=='function') {
-									onRun();
-								}
-							}.bind(this));
 						}.bind(this));	
 					}.bind(this));				
 				}.bind(this),function(e){
