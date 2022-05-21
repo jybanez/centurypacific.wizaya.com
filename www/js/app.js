@@ -413,26 +413,23 @@ var App = {
 								console.log(data.script,scriptUrl);
 								new Asset.javascript(scriptUrl,{
 									onload:function(){
+										console.log('Script loaded.');
 										$extend(TPH,{
 											$remote:this.app,
 											$session:data.session
 										});
-										
+										console.log('Running inline scripts...');
 										Function(data.inlineScripts)();
-										window.fireEvent('domready');
-										/*
-										new Element('script',{
-											type:'text/javascript'
-										}).inject(head).set('text',data.inlineScripts);
-										*/	
+										window.fireEvent('domready');	
 									}.bind(this)
 								});	
 							} else {
+								console.log('No script loaded.');
 								$extend(TPH,{
 									$remote:this.app,
 									$session:data.session
 								});
-								
+								console.log('Running inline scripts...');
 								Function(data.inlineScripts)();
 								window.fireEvent('domready');
 							}
