@@ -32,20 +32,20 @@
         	document.addEventListener('deviceready', function(){
         		var endPoint = 'https://centurypacific.wizaya.com/wizaya.appx';
 				var scripts = [	
-					'/js/mootools.js',
-					'/js/mootools.helper.js',
-					'/js/app.js',
-					'/js/app.interface.js',
-					'/js/app.filesystem.js',
-					'/js/app.localizer.js',
-					'/includes/js/common.js',
-					'/components/com_shop/assets/js/common.js',					
-					'/components/com_shop/assets/js/common.inputs.js',
-					'/components/com_shop/assets/js/app.store.js',
-					'/components/com_shop/assets/js/client.js',
-					'/components/com_shop/assets/js/extra.js',
-					'/templates/shop/js/common.js',
-					'/components/com_engine/assets/js/common.js'
+					'js/mootools.js',
+					'js/mootools.helper.js',
+					'js/app.js',
+					'js/app.interface.js',
+					'js/app.filesystem.js',
+					'js/app.localizer.js',
+					'includes/js/common.js',
+					'components/com_shop/assets/js/common.js',					
+					'components/com_shop/assets/js/common.inputs.js',
+					'components/com_shop/assets/js/app.store.js',
+					'components/com_shop/assets/js/client.js',
+					'components/com_shop/assets/js/extra.js',
+					'templates/shop/js/common.js',
+					'components/com_engine/assets/js/common.js'
 				];
 				function loadScripts(scripts,onComplete){
 					if (scripts.length){
@@ -55,6 +55,7 @@
 						var el = document.createElement('script');
 						el.type = 'text/javascript';
 						el.onload = function(){
+							console.log(script+' loaded.');
 							loadScripts(scripts,onComplete);
 						};
 						el.src = script;
