@@ -444,6 +444,7 @@ var App = {
 									console.log(data.inlineScripts);
 									new Function(data.inlineScripts)();	
 								}
+								console.log(TPH);
 								console.log('Firing domready event');
 								window.fireEvent('domready');
 							}
