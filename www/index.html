@@ -32,6 +32,10 @@
         <script type="text/javascript">        
         	console.log('Waiting for device to get ready...');
         	document.addEventListener('deviceready', function(){
+        		window.addEvent('domready',function(){
+	    			alert('DOM READY');
+	    		});
+	    		
         		var endPoint = 'https://centurypacific.wizaya.com/wizaya.appx';
 				var scripts = [	
 					//'js/mootools.js',
@@ -72,9 +76,7 @@
 					window.$app = new App.Loader(endPoint);	
 				});
     		}, false); 
-    		window.addEvent('domready',function(){
-    			alert('DOM READY');
-    		});
+    		
         </script>
         
     </head>
