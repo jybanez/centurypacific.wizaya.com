@@ -379,16 +379,6 @@ var App = {
 							
 		},
 		run:function(onRun){
-			window.addEvents({
-				onPlatformReady:function(instance){
-					console.log('Platform Ready!');
-					$pick(onRun,$empty)();
-				},
-				sessionReady:function(){
-					console.log('Initializing Client');
-					new Shop.Client();
-				}	
-			});
 			this.showSplash({
 				connection:window.$connection+' - '+(window.$isOnline?'Online':'Offline'),
 		    	version:'v'+this.$version
@@ -400,6 +390,16 @@ var App = {
 					this.run(onRun);
 				}.bind(this));
 			} else {
+				window.addEvents({
+					onPlatformReady:function(instance){
+						console.log('Platform Ready!');
+						$pick(onRun,$empty)();
+					},
+					sessionReady:function(){
+						console.log('Initializing Client');
+						new Shop.Client();
+					}	
+				});
 				this.getData(function(data){
 					console.log('App Data',data);
 					var body = this.$body.appendHTML(data.body,'top');
