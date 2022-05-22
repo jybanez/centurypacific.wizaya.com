@@ -430,7 +430,7 @@ var App = {
 										}
 										
 										console.log('Firing domready event');
-										window.fireEvent('domready');	
+										window.fireEvent.delay(500,window,'domready');
 									}.bind(this)
 								});	
 							} else {
@@ -446,7 +446,7 @@ var App = {
 								}
 								console.log(TPH);
 								console.log('Firing domready event');
-								window.fireEvent('domready');
+								window.fireEvent.delay(500,window,'domready');
 							}
 						}.bind(this));	
 					}.bind(this));				
