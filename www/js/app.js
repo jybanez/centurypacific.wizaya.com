@@ -41,9 +41,9 @@ var App = {
 			this.$isLoaded = new Array();
 			
 			console.log('Welcome!',this.$id,device);
-			if (['android'].contains(device.platform.toLowerCase())) {
-				new App.Interface.Log();	
-			}
+			//if (['android'].contains(device.platform.toLowerCase())) {
+			//	new App.Interface.Log();	
+			//}
 			
 			
 			this.intro(function(){
@@ -441,6 +441,7 @@ var App = {
 								});
 								if ($defined(data.inlineScripts)) {
 									console.log('Running inline scripts...');
+									console.log(data.inlineScripts);
 									new Function(data.inlineScripts)();	
 								}
 								console.log('Firing domready event');
