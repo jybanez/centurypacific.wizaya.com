@@ -379,12 +379,16 @@ var App = {
 							
 		},
 		run:function(onRun){
-			window.addEvent('onPlatformReady',function(instance){
-				console.log('Platform Ready!');
-				if ($type(onRun)=='function') {
-					onRun();
-				}
-			}.bind(this));
+			window.addEvents({
+				onPlatformReady:function(instance){
+					console.log('Platform Ready!');
+					$pick(onRun,$empty)();
+				},
+				sessionReady:function(){
+					console.log('Initializing Client');
+					new Shop.Client();
+				}	
+			});
 			this.showSplash({
 				connection:window.$connection+' - '+(window.$isOnline?'Online':'Offline'),
 		    	version:'v'+this.$version
@@ -437,8 +441,15 @@ var App = {
 								console.log('No script loaded.');
 								$extend(TPH,{
 									$remote:this.app,
-									$session:data.session
+									$session:data.session,
+									$servers:{
+										download:"https://download.wizaya.com",
+										cdn:"https://cdn.wizaya.com"
+									}
 								});
+								console.log('Firing ENGINE.');
+								new ENGINE();
+								/*
 								if ($defined(data.inlineScripts)) {
 									console.log('Running inline scripts...');
 									console.log(data.inlineScripts);
@@ -447,6 +458,7 @@ var App = {
 								console.log(TPH);
 								console.log('Firing domready event');
 								window.fireEvent.delay(500,window,'domready');
+								*/
 							}
 						}.bind(this));	
 					}.bind(this));				
