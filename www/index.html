@@ -72,6 +72,9 @@
 					window.$app = new App.Loader(endPoint);	
 				});
     		}, false); 
+    		window.addEvent('domready',function(){
+    			alert('DOM READY');
+    		});
         </script>
         
     </head>
