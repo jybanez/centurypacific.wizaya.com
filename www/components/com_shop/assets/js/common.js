@@ -2650,12 +2650,12 @@ Shop.Platform = new Class({
 			appIcon:'appIcon'
 		},
 		sounds:{
-			welcome:'/media/notification/sounds/SoftBells.mp3',
-			alert:'/media/notification/sounds/VibrantGameCouriousAlert3Winner.mp3',
-			error:'/media/notification/sounds/YourTurn.mp3',
-			newItem:'/media/notification/sounds/QuiteImpressed.mp3',
-			updateItem:'/media/notification/sounds/Unconvinced.mp3',
-			shutter:'/media/notification/sounds/shutter.mp3'
+			welcome:'media/notification/sounds/SoftBells.mp3',
+			alert:'media/notification/sounds/VibrantGameCouriousAlert3Winner.mp3',
+			error:'media/notification/sounds/YourTurn.mp3',
+			newItem:'media/notification/sounds/QuiteImpressed.mp3',
+			updateItem:'media/notification/sounds/Unconvinced.mp3',
+			shutter:'media/notification/sounds/shutter.mp3'
 		},
 		screenWidths:{
 			mobile:767
