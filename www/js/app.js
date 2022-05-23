@@ -97,7 +97,7 @@ var App = {
 			});
 		},
 		intro:function(onComplete){
-			if (false){ //device.platform!='browser') {
+			if (['android'].contains(device.platform.toLowerCase())) {
 				this.$intro = new Element('video',{
 					controls:false,
 					autoplay:true,
