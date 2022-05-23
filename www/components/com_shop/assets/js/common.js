@@ -1,3 +1,4 @@
+/*
 (function(){
 	$extend(TPH,{
 		loadScript:function(url,onLoad,onError,doc,useCDN){
@@ -177,6 +178,7 @@
 		}
 	});
 })();
+*/
 if ($defined(window.cordova) && !window.$mobileInitialized) {
 	console.log('Initialize Mobile Native Functions');
 	

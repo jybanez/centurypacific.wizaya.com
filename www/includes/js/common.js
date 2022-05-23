@@ -737,6 +737,8 @@ TPH.loadScript = function(url,onLoad,onError,doc,useCDN){
 		doc.$scripts = new Array();
 	}
 	var link = url.toURI();
+	console.log('Load Script '+link.toString());
+	/*
 	var servers = $pick(TPH.$servers,{});
 	if ($defined(servers.cdn) && $pick(useCDN,true)) {
 		var cdn = servers.cdn.toURI();
@@ -749,7 +751,7 @@ TPH.loadScript = function(url,onLoad,onError,doc,useCDN){
 		link.set('host',remote.get('host'));
 		link.set('port',null);
 	}
-	
+	*/
 	if (!doc.$scripts.contains(link.toString())) {
 		new Asset.javascript(link.toString(),{
 			onLoad:function(){	
@@ -772,6 +774,8 @@ TPH.loadStylesheet = function(url,onLoad,onError,doc,useCDN){
 		doc.$stylesheets = new Array();
 	}
 	var link = url.toURI();
+	console.log('Load Stylesheet '+link.toString());
+	/*
 	var servers = $pick(TPH.$servers,{});
 	if ($defined(servers.cdn) && $pick(useCDN,true)) {
 		var cdn = servers.cdn.toURI();
@@ -784,7 +788,7 @@ TPH.loadStylesheet = function(url,onLoad,onError,doc,useCDN){
 		link.set('host',remote.get('host'));
 		link.set('port',null);
 	}
-
+	*/
 	if (!doc.$stylesheets.contains(link.toString())) {
 		new Asset.css(link.toString(),{
 			onLoad:function(){
