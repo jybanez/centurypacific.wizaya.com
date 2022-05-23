@@ -674,6 +674,7 @@ TPH.AssetAlias = {
 };
 
 TPH.loadAsset = function(library,onLoad) {
+	console.log('Load Asset '+library);
 	var library = $pick(TPH.AssetAlias[library],library);
 	//console.log(library,!$defined(window[library]) && !TPH.AssetsLoaded.contains(library));
 	if (!$defined(window[library]) || !TPH.AssetsLoaded.contains(library)) {
@@ -757,7 +758,7 @@ TPH.loadScript = function(url,onLoad,onError,doc,useCDN){
 					onLoad();	
 				}
 			},
-			//onError:onError,
+			onError:onError,
 			document:doc
 		});	
 	} else if ($type(onLoad)=='function') {
@@ -792,7 +793,7 @@ TPH.loadStylesheet = function(url,onLoad,onError,doc,useCDN){
 					onLoad();	
 				}
 			},
-			//onError:onError,
+			onError:onError,
 			document:doc
 		});
 	} else if ($type(onLoad)=='function') {
@@ -804,6 +805,7 @@ TPH.loadAssetFiles = function(files,onLoad){
 	if (files.length) {
 		var asset = files.shift();
 		var link = asset.toURI();
+		console.log('Load Asset File '+link.toString());
 		/*
 		if ($defined(TPH.$remote)) {
 			var remote = TPH.$remote.toURI();
@@ -817,6 +819,8 @@ TPH.loadAssetFiles = function(files,onLoad){
 			case 'js':
 				TPH.loadScript(link.toString(),function(){
 					TPH.loadAssetFiles.delay(200,null,[files,onLoad]);
+				},function(){
+					console.log('Unable to load Asset File '+link.toString());
 				});
 				/*
 				new Asset.javascript(link.toString(),{
@@ -829,6 +833,8 @@ TPH.loadAssetFiles = function(files,onLoad){
 			case 'css':
 				TPH.loadStylesheet(link.toString(),function(){
 					TPH.loadAssetFiles.delay(200,null,[files,onLoad]);
+				},function(){
+					console.log('Unable to load Asset File '+link.toString());
 				});
 				/*
 				new Asset.css(link.toString(),{
