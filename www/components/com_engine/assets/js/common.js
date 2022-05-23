@@ -11,11 +11,13 @@
 	    },
 	    $sessionId:null,
 	    initialize:function(options){
+	    	console.log('Starting Engine...');
 	        this.setOptions(options);
 	        ENGINE.instance = this;
 	        
 	        var sessionId = $pick(TPH.$session,this.getStorage('session'));
 	        if ($defined(sessionId)) {
+	        	console.log('Session ID '+sessionId);
 	        	this.setSessionId(sessionId);
 	        } 
 	        
@@ -69,7 +71,7 @@
             	time:dateStart.format('db'),
             	session:this.getSessionId()
            	});
-           	
+           	console.log('Requesting Session Details...');
 	        this.checkRequest = new TPH.Ajax({
 	            data:params,
 	            onComplete:function(html){	            	
@@ -115,6 +117,7 @@
 	                }
 	            }.bind(this),
 	            onFailure:function(){
+	            	console.log('Session Request Failed...');
 	            	if (!this.sessionReady) {
 	            		ENGINE.hideOverlay();
 	            		
