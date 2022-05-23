@@ -9544,9 +9544,10 @@ Shop.Voices = new Class({
 					this.$voices = window.speechSynthesis.getVoices();
 			    	console.log('Voices : Loaded '+this.$voices.length+' voices.');
 			   	}.bind(this));	
-			} else if ($defined(window.speechSynthesis.getVoices)){
+			} else {
 				this.$voices = window.speechSynthesis.getVoices();	
-				console.log('Voices : Loaded '+this.$voices.length+' voices.');
+				//console.log(this.$voices);
+				console.log('Voices : Loaded '+this.getVoices().length+' voices.');
 			}
 		}.bind(this));
 	},
