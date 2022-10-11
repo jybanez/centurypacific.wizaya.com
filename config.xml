@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.wizaya.centurypacific" 
-		version="1.0.31" 
+		version="1.0.32" 
 		versionCode="" 
 		xmlns="http://www.w3.org/ns/widgets" 
 		xmlns:android="http://schemas.android.com/apk/res/android" 
@@ -163,6 +163,5 @@
     <plugin name="cordova-plugin-contacts-x" spec="https://github.com/EinfachHans/cordova-plugin-contacts-x" />
     <plugin name="cordova-plugin-iosrtc" />
     <plugin name="cordova-plugin-ios-xhr" spec="https://github.com/globules-io/cordova-plugin-ios-xhr" />
-    <plugin name="cordova-plugin-photo-library" />
     <content src="index.html" />
 </widget>
