@@ -4640,34 +4640,67 @@ Shop.Registry = new Class({
     	storage.clear();
     	return this;
     },
-	loadAppTemplates:function(appName,namespace,onLoad,container){
+	loadAppTemplates:function(appName,namespace,onLoad,onError,container){
 		var app = this.getApp(appName),
 			hasTemplates = false;
-			
+		
+
 		if ($defined(app)) {
+			var logo = app.data.logo;
 			var appData = $pick(app.data.technicals[namespace],{});
 			hasTemplates = $defined(appData.templates); 
 			if (hasTemplates) {
 				appData.templatesLoaded = false;
-				var progressOptions = {};
+				var templates = Object.keys(appData.templates);
+				var progressOptions = {
+					count:templates.length,
+					loaded:0,
+					progress:0
+				};
                 if ($defined(container)) {
                     var el = new Element('div',{
                         'class':'font small padded'
                     }).inject(container)
-                        .adopt(new Element('div').set('html','Getting ready. Please wait...'));
+                        .adopt(new Element('div').set('html','Getting ready. Please wait...'))
+						.adopt(new Element('div',{
+							styles:{
+								'background-image':'url('+logo+')',
+								'background-position':'center center',
+								'background-repeat':'no-repeat',
+								'background-size':'contain',
+								width:200,
+								height:200,
+								margin:'20px auto'
+							}
+						}))
+						;
                     $extend(progressOptions,{
                     	container:el,
                         progressBar:new ProgressBar.Line(new Element('div',{'class':''}).inject(el), {
-                            strokeWidth: 5,
+                            strokeWidth: 2,
                             color: '#FCB03C',
-                            duration: 500,
-                            easing: 'easeIn'
+							text:{
+								style:{
+									color: '#000',
+									position: 'absolute',
+									left: '50%',
+									top: '30px',
+									padding: 0,
+									margin: 0,
+									transform: {
+										prefix: true,
+										value: 'translate(-50%, 0)'
+									}
+								}
+								
+							}
                         })
                     });
                 }  
-                if ($defined(progressOptions.progressBar)) {
-					progressOptions.progressBar.animate(0.1);	
-				}
+				
+                //if ($defined(progressOptions.progressBar)) {
+				//	progressOptions.progressBar.animate(0.1);	
+				//}
 				
 				//var storage = this.getStorage(namespace);
 				var loaded = false,
@@ -4675,7 +4708,8 @@ Shop.Registry = new Class({
 
 				if (!loaded) {
 					//console.log(namespace,Object.keys(appData.templates));
-					this.requestAppTemplates(appName,appData,namespace,Object.keys(appData.templates),function(){
+					console.log('Templates',progressOptions.count);
+					this.requestAppTemplates(appName,appData,namespace,templates,function(){
 						appData.templatesLoaded = true;
 						//storage.set(appName,Json.encode(result));
 						if ($defined(progressOptions.progressBar)) {
@@ -4690,7 +4724,7 @@ Shop.Registry = new Class({
 						} else if ($type(onLoad)=='function') {
 							onLoad(appName);
 						}
-					}.bind(this));
+					}.bind(this),onError,progressOptions);
 				}
 			}
 		}
@@ -4699,7 +4733,7 @@ Shop.Registry = new Class({
             onLoad(appName);
         }
 	},
-	requestAppTemplates:function(appName,appData,namespace,templates,onComplete){
+	requestAppTemplates:function(appName,appData,namespace,templates,onComplete,onError,progressOptions){
 		if (templates.length){
 			var storeKey = namespace=='plugins'?[namespace,this.options.platform].join('.'):namespace;
 			var template = templates.shift();
@@ -4708,7 +4742,7 @@ Shop.Registry = new Class({
 			var storage = this.getStorage(storeKey);
 			if (storage.has(id)) {
 				appData.templates[template] = storage.get(id);
-				this.requestAppTemplates(appName,appData,namespace,templates,onComplete);
+				this.requestAppTemplates(appName,appData,namespace,templates,onComplete,onError,progressOptions);
 			} else {
 				var link = appData.templates[template].toURI();
 				var servers = $pick(TPH.$servers,{});
@@ -4724,22 +4758,45 @@ Shop.Registry = new Class({
 					link.set('port',null);
 				}
 				var url = link.toString();
-				new Request({
-					url:url,
-					method:'GET',
-					headers:{
-						'Cache-Control':'max-stale'
-					},
-					onSuccess:function(result){
-						appData.templates[template] = result;
-						storage.set(id,result);
-						this.requestAppTemplates(appName,appData,namespace,templates,onComplete);
-					}.bind(this)
-				}).send();	
+				this.requestAppTemplate(url,function(result){
+					appData.templates[template] = result;
+					storage.set(id,result);
+					progressOptions.loaded++;
+					progressOptions.progress = progressOptions.loaded/progressOptions.count;
+					console.log('Loaded',progressOptions.progress);
+					if ($defined(progressOptions.progressBar)) {
+						progressOptions.progressBar.setText((progressOptions.progress*100).round(2)+'%');
+						progressOptions.progressBar.animate(progressOptions.progress,function(){
+							this.requestAppTemplates(appName,appData,namespace,templates,onComplete,onError,progressOptions);	
+						}.bind(this));	
+					} else {
+						this.requestAppTemplates(appName,appData,namespace,templates,onComplete,onError,progressOptions);
+					}
+				}.bind(this),onError);
+					
 			}
 		} else if ($type(onComplete)){
 			onComplete();
 		}
+	},
+	requestAppTemplate:function(url,onSuccess,onError){
+		new Request({
+			url:url,
+			method:'GET',
+			headers:{
+				'Cache-Control':'max-stale'
+			},
+			onSuccess:onSuccess,
+			onFailure:function(req){
+				TPH.confirm('System Message','Unable to download App resources.<br />Please make sure your internet connection is stable.',function(){
+					this.requestAppTemplate(url,onSuccess);
+				}.bind(this),onError,$empty,{
+					okText:'Try Again',
+					cancelText:'Close',
+					messageClass:'alertMessage'
+				});
+			}.bind(this)
+		}).send();
 	},
 	getApp:function(appName){
 		return this.$items[appName];
