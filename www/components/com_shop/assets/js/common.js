@@ -2743,7 +2743,7 @@ Shop.Platform = new Class({
 	            
 	            this.registry = new Shop.Registry({
 	                platform:this.options.platform,
-	                requestContainer:function(app){
+	                                                                                  Container:function(app){
 	                	return this.$interface.requestContainer(app);
 	                }.bind(this),
 	                onBeforeCreateInstance:function(options){
@@ -4721,7 +4721,10 @@ Shop.Registry = new Class({
 				};
                 if ($defined(container)) {
                     var el = new Element('div',{
-                        'class':'font small padded'
+                        'class':'font small padded',
+						styles:{
+							height:'100%'
+						}
                     }).inject(container)
                         .adopt(new Element('div').set('html','Getting ready. Please wait...'))
 						.adopt(new Element('div',{
@@ -4740,6 +4743,7 @@ Shop.Registry = new Class({
                     	container:el,
                         progressBar:new ProgressBar.Line(new Element('div',{'class':''}).inject(el), {
                             strokeWidth: 2,
+							duration:500,
                             color: '#FCB03C',
 							text:{
 								style:{
