@@ -1718,13 +1718,15 @@ Shop.List.Comments = new Class({
 		this.parent(container,options);
 		
 		this.form = container.getElement('form.commentForm');
-		this.form.addEvent('submit',function(e){
-			e.stop();
-			this.submit();
-			return false;
-		}.bind(this));
-		
-		this.comment = document.id(this.form.elements['comment']);
+		if ($defined(this.form)) {
+			this.form.addEvent('submit',function(e){
+				e.stop();
+				this.submit();
+				return false;
+			}.bind(this));
+			
+			this.comment = document.id(this.form.elements['comment']);	
+		}
 	},
 	init:function(){
 		this.toBottom(true);
@@ -2650,12 +2652,12 @@ Shop.Platform = new Class({
 			appIcon:'appIcon'
 		},
 		sounds:{
-			welcome:'media/notification/sounds/SoftBells.mp3',
-			alert:'media/notification/sounds/VibrantGameCouriousAlert3Winner.mp3',
-			error:'media/notification/sounds/YourTurn.mp3',
-			newItem:'media/notification/sounds/QuiteImpressed.mp3',
-			updateItem:'media/notification/sounds/Unconvinced.mp3',
-			shutter:'media/notification/sounds/shutter.mp3'
+			welcome:'/media/notification/sounds/SoftBells.mp3',
+			alert:'/media/notification/sounds/VibrantGameCouriousAlert3Winner.mp3',
+			error:'/media/notification/sounds/YourTurn.mp3',
+			newItem:'/media/notification/sounds/QuiteImpressed.mp3',
+			updateItem:'/media/notification/sounds/Unconvinced.mp3',
+			shutter:'/media/notification/sounds/shutter.mp3'
 		},
 		screenWidths:{
 			mobile:767
@@ -2743,7 +2745,7 @@ Shop.Platform = new Class({
 	            
 	            this.registry = new Shop.Registry({
 	                platform:this.options.platform,
-	                                                                                  Container:function(app){
+	                requestContainer:function(app){
 	                	return this.$interface.requestContainer(app);
 	                }.bind(this),
 	                onBeforeCreateInstance:function(options){
@@ -4283,6 +4285,17 @@ Shop.Platform.Profile = new Class({
 	testSpeak:function(){
 		Shop.instance.$voices.say('Hello');
 		//console.log('test');
+	},
+	deactivateAccount:function(){
+		var url = new URI(Shop.instance.account.memberDeactivateLink);
+		url.setData({session:TPH.$session});
+		window.open(url.toString());
+	},
+	deleteAccount:function(){
+
+	},
+	deleteAccountData:function(){
+
 	}
 });
 
@@ -4743,8 +4756,8 @@ Shop.Registry = new Class({
                     	container:el,
                         progressBar:new ProgressBar.Line(new Element('div',{'class':''}).inject(el), {
                             strokeWidth: 2,
-							duration:500,
                             color: '#FCB03C',
+							durtaion:500,
 							text:{
 								style:{
 									color: '#000',
@@ -4910,7 +4923,7 @@ Shop.Registry = new Class({
 			this.refresh();
 		}
 	},
-	_createInstance:function(appName,appContainer,onCreate){
+	_createInstance:function(appName,appContainer,onCreate,onError){
         var app = this.getApp(appName);
         //console.log(app);
         //console.log(this.getApp(appName));
@@ -4987,7 +5000,7 @@ Shop.Registry = new Class({
 		}
 		
 	},
-	createInstance:function(appName,onCreate){
+	createInstance:function(appName,onCreate,onError){
 		this.$menu.close();
 		var app = this.getApp(appName); //$pick(app,this.currentApp);
         //console.log(app);
@@ -5008,7 +5021,10 @@ Shop.Registry = new Class({
                     }          
                 }  
                 this._createInstance(appName,appContainer,onCreate);
-            }.bind(this),container);
+            }.bind(this),function(){
+				//On Error on loading App Templates
+				appContainer.close();
+			}.bind(this),container);
         } else {
             container.empty();
             this._createInstance(appName,appContainer,onCreate);
@@ -5469,7 +5485,8 @@ Shop.App = new Class({
 			},{
 				onComplete:function(result){
 					if (result.status) {
-						$extend(this.app,result.data);
+					    this.app.online = result.data.online;
+						//$extend(this.app,result.data);
 						this.fireEvent('onChangeAppOnlineStatus',[result.data.online,result.data,this]);	
 						Shop.instance.getNotifier().publish(['onChangeAppOnlineStatus'].join('-').clean(),{
 							app:result.data.app,
@@ -5749,7 +5766,7 @@ Shop.App = new Class({
 		
 		this.containers.select(this.options.containers[0].id);
 		
-		//TPH.Tools.instance.scanContainer(this.container);
+		TPH.Tools.instance.scanContainer(this.container);
 		this.scanActions(this.container);
 		$fullHeight.delay(500,this,this.container);
 		
@@ -7323,6 +7340,7 @@ Shop.App.CommoditySelect = new Class({
 		TPH.Implementors.ActiveRequest
 	],
 	options:{
+		searchKey:'name',
 		request:{
 			controller:'commodities'
 		}
@@ -9667,10 +9685,9 @@ Shop.Voices = new Class({
 					this.$voices = window.speechSynthesis.getVoices();
 			    	console.log('Voices : Loaded '+this.$voices.length+' voices.');
 			   	}.bind(this));	
-			} else if ($type(window.speechSynthesis.getVoices)=='function'){
+			} else {
 				this.$voices = window.speechSynthesis.getVoices();	
-				//console.log(this.$voices);
-				console.log('Voices : Loaded '+this.getVoices().length+' voices.');
+				console.log('Voices : Loaded '+this.$voices.length+' voices.');
 			}
 		}.bind(this));
 	},
