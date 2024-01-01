@@ -2889,7 +2889,10 @@ Shop.Platform = new Class({
 		                this.runUpdates(function(){
 		                	this.registry.autoload();
 		                }.bind(this));
-		                window.fireEvent('onPlatformReady',[this]);        
+						
+		                window.fireEvent('onPlatformReady',[this]);      
+						
+						this.checkAccountStatus();
 	                }.bind(this)
 	            }); 
             }.bind(this));
@@ -2899,6 +2902,60 @@ Shop.Platform = new Class({
 		
 		if ($type(onLaunch)){
 			onLaunch();
+		}
+	},
+	checkAccountStatus:function(){
+		if ($defined(TPH.$member)) {
+			switch(TPH.$member.am_status){
+				case 'inactive':
+					TPH.getWindow('__checkAccountStatus__',{
+						closable:false
+					}).open(function(win){
+						win.setCaption('System Message');
+						win.content.setStyles({'height':'','width':''});
+						new Element('div',{'class':'alertMessage'})
+									.injectInside(win.content)
+									.setStyles({'max-width':600})
+									.set('html','Your account is currently deactivated and is inaccessible.');
+						
+						var alertControls = new Element('li',{'class':'confirmControls'})
+								.injectInside(new Element('ul',{'class':'fieldList spaced border_top'}).injectInside(win.content));
+						
+						var messageControl = new Element('div',{'class':'controls padded align_right'}).injectInside(alertControls);
+
+						TPH.button('Reactivate Account',{'class':'btn secondary rounded padded_small'}).injectInside(messageControl)
+						.addEvent('click',function(e){
+							e.stop();
+							var url = new URI(Shop.instance.account.memberReactivateLink);
+							url.setData('session',TPH.$session);
+							window.open(url.toString());
+						});
+
+						TPH.button('Reload App',{'class':'btn primary rounded padded_small'}).injectInside(messageControl)
+						.addEvent('click',function(e){
+							e.stop();
+							window.location.reload();
+						});
+
+						win.toTop().toCenter();
+					}.bind(this),true);
+					break;
+					case 'purged':
+						TPH.getWindow('__checkAccountStatus__',{
+							closable:false
+						}).open(function(win){
+							win.setCaption('System Message');
+							win.content.setStyles({'height':'','width':''});
+							new Element('div',{'class':'alertMessage'})
+										.injectInside(win.content)
+										.setStyles({'max-width':600})
+										.set('html','Your account is currently being processed for deletion.<br />Your account is now inactive and inaccessible.');
+							
+	
+							win.toTop().toCenter();
+						}.bind(this),true);
+						break;
+			}
 		}
 	},
 	noSleep:function(stayup){
@@ -3274,9 +3331,13 @@ Shop.Platform = new Class({
 		                var autoloaded = $pick(this.account.startup,'0').toInt()?$pick(this.account.startup_list,[]):appList.autoloaded;
 		                this.registry.setApps(appList.items,autoloaded,appList.apps);
 		                this.registry.autoload();
+						
+						
 		                if ($type(onRestart)=='function') {
 		                    onRestart();
 		                }
+
+						this.checkAccountStatus();
 		            }.bind(this),true);
 		        }.bind(this),true);
         	}.bind(this));	
@@ -3321,6 +3382,7 @@ Shop.Platform = new Class({
 						this.prepDevice();
 						this.loadNotifier();
 						window.fireEvent('platformReady',[this]);
+						
 						if ($type(onStart)=='function') {
 							onStart();
 						}	
