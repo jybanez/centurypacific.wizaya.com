@@ -3831,7 +3831,7 @@ Shop.Platform = new Class({
 					}	
 				}
 				
-				console.log('Notification Scan Plugins');
+				//console.log('Notification Scan Plugins');
 				for(pluginName in Shop.Plugin.$instances) {
 					//console.log(pluginName,Shop.Plugin.$instances[pluginName]);
 					var instance = Shop.Plugin.$instances[pluginName];
@@ -9853,7 +9853,7 @@ Shop.Realtime.Ably = new Class({
 				});
 				//console.log('Realtime Message from '+data.senderId);
 				//if (!this.$index.contains(data.hash)) {
-					console.log('onReceiveMessage',msg);
+					//console.log('onReceiveMessage',msg);
 					this.fireEvent('onReceiveMessage',[msg,this]);	
 				//}	
 			} else {
