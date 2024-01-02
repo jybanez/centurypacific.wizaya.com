@@ -190,6 +190,10 @@ if ($defined(window.cordova) && !window.$mobileInitialized) {
 		console.log('Disabling WebView Overlay of Statusbar');
 		//StatusBar.overlaysWebView(false);
 	}
+	if ($defined(cordova.InAppBrowser)) {
+		window.open = cordova.InAppBrowser.open;
+	}
+	
 	window.$mobileInitialized = true;
 }
 Date.prototype.getWeekNumber = function(){
