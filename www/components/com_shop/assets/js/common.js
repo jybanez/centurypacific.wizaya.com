@@ -4842,7 +4842,7 @@ Shop.Registry = new Class({
 					storage.set(id,result);
 					progressOptions.loaded++;
 					progressOptions.progress = progressOptions.loaded/progressOptions.count;
-					console.log('Loaded',progressOptions.progress);
+					//console.log('Loaded',progressOptions.progress);
 					if ($defined(progressOptions.progressBar)) {
 						progressOptions.progressBar.setText((progressOptions.progress*100).round(2)+'%');
 						progressOptions.progressBar.animate(progressOptions.progress,function(){
