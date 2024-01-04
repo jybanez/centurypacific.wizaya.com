@@ -15,7 +15,7 @@
 	        this.setOptions(options);
 	        ENGINE.instance = this;
 	        
-	        var sessionId = $pick(TPH.$session,this.getStorage('session'));
+	        var sessionId = $pick(this.getStorage('session'),TPH.$session);
 	        if ($defined(sessionId)) {
 	        	console.log('Session ID '+sessionId);
 	        	this.setSessionId(sessionId);
@@ -50,6 +50,7 @@
 	    },
 	    setSessionId:function(sessionId) {
 	    	console.log('Setting Session ID '+sessionId);
+			TPH.$session = sessionId;
 			this.$sessionId = sessionId;
 	    	this.setStorage('session',sessionId);
 	    	return this;
