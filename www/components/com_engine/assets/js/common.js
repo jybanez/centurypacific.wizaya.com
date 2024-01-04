@@ -32,11 +32,14 @@
 	    },
 	    getStorage:function(key){
 	    	if ($defined(window.localStorage)) {
-	    		return localStorage.getItem(key);
+				var value = localStorage.getItem(key);
+				console.log('Retrieving '+key+' = '+value);
+	    		return value;
 	    	}
 	    },
 	    setStorage:function(key,value){
 	    	if ($defined(window.localStorage)) {
+				console.log('Storing '+key+' '+value);
 	    		localStorage.setItem(key,value);
 	    	}
 	    },
@@ -46,7 +49,8 @@
 	    	}
 	    },
 	    setSessionId:function(sessionId) {
-	    	this.$sessionId = sessionId;
+	    	console.log('Setting Session ID '+sessionId);
+			this.$sessionId = sessionId;
 	    	this.setStorage('session',sessionId);
 	    	return this;
 	    },
