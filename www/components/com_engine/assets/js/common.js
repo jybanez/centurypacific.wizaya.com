@@ -49,10 +49,10 @@
 	    },
 	    setSessionId:function(sessionId) {
 	    	console.log('Setting Session ID '+sessionId);
-			if (sessionId!=TPH.$session) {
+			//if (sessionId!=TPH.$session) {
 				TPH.$session = sessionId;
 				this.setStorage('session',sessionId);
-			}
+			//}
 			
 	    	return this;
 	    },
@@ -103,6 +103,10 @@
 	                	//$latency:(serverDate-dateStart)+(responseDate-dateStart),
 	                	$checkTime:dateStart
 	                }));
+	                
+	                if ($defined(data.$session)) {
+	                	this.setSessionId(data.$session);
+	                }
 	                
 	                if (!this.sessionReady) {
 	                	TPH.loadAsset('libphonenumber',function(){
