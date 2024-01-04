@@ -9,7 +9,6 @@
 	        },
 	        plugins:[]
 	    },
-	    $sessionId:null,
 	    initialize:function(options){
 	    	console.log('Starting Engine...');
 	        this.setOptions(options);
@@ -50,13 +49,15 @@
 	    },
 	    setSessionId:function(sessionId) {
 	    	console.log('Setting Session ID '+sessionId);
-			TPH.$session = sessionId;
-			this.$sessionId = sessionId;
-	    	this.setStorage('session',sessionId);
+			if (sessionId!=TPH.$session) {
+				TPH.$session = sessionId;
+				this.setStorage('session',sessionId);
+			}
+			
 	    	return this;
 	    },
 	    getSessionId:function(){
-	    	return this.$sessionId;
+	    	return TPH.$session;
 	    },
 	    check:function(onCheck,onFailure){		
 	        if ($defined(this.checkRequest)) {
@@ -102,10 +103,6 @@
 	                	//$latency:(serverDate-dateStart)+(responseDate-dateStart),
 	                	$checkTime:dateStart
 	                }));
-	                
-	                if ($defined(TPH.$session)) {
-	                	this.setSessionId(TPH.$session);
-	                }
 	                
 	                if (!this.sessionReady) {
 	                	TPH.loadAsset('libphonenumber',function(){
