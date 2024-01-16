@@ -5880,7 +5880,7 @@ Shop.App = new Class({
 		
 		this.containers.select(this.options.containers[0].id);
 		
-		TPH.Tools.instance.scanContainer(this.container);
+		//TPH.Tools.instance.scanContainer(this.container);
 		this.scanActions(this.container);
 		$fullHeight.delay(500,this,this.container);
 		
