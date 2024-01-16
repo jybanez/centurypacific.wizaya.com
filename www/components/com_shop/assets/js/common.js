@@ -1,5 +1,5 @@
 /*
-(function(){
+(function(){	
 	$extend(TPH,{
 		loadScript:function(url,onLoad,onError,doc,useCDN){
 			var doc = $pick(doc,document);
@@ -171,7 +171,7 @@
 							document:doc
 						});
 					}
-				} else if ($type(onLoad)=='function') {
+				} else if ($type(onLoad)=='function') {                                                                                                                                                                                                     
 					onLoad();	
 				}	
 			});							
@@ -190,6 +190,7 @@ if ($defined(window.cordova) && !window.$mobileInitialized) {
 		console.log('Disabling WebView Overlay of Statusbar');
 		//StatusBar.overlaysWebView(false);
 	}
+
 	if ($defined(cordova.InAppBrowser)) {
 		window.open = cordova.InAppBrowser.open;
 	}
@@ -203,6 +204,45 @@ Date.prototype.getWeekNumber = function(){
   	var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
   	return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
 };
+Request.implement({
+	onStateChange: function(){
+		var progressSupport = ('onprogress' in new Browser.Request);
+		var xhr = this.xhr;
+		if (xhr.readyState != 4 || !this.running) return;
+		this.running = false;
+		this.status = 0;
+		Function.attempt(function(){
+			var status = xhr.status;
+			this.status = (status == 1223) ? 204 : status;
+		}.bind(this));
+		xhr.onreadystatechange = $empty;
+		if (progressSupport) xhr.onprogress = xhr.onloadstart = $empty;
+		if (this.timer){
+			clearTimeout(this.timer);
+			delete this.timer;
+		}
+
+		this.response = ['','text'].contains(this.xhr.responseType)?{text: this.xhr.responseText || '', xml: this.xhr.responseXML}:this.xhr.response;
+		if (this.options.isSuccess.call(this, this.status))
+			if (['','text'].contains(this.xhr.responseType)) {
+				this.success(this.response.text, this.response.xml);
+			} else {
+				this.success(this.response);
+			}
+			
+		else
+			this.failure();
+	},
+	success: function(text, xml){
+		if (['','text'].contains(this.xhr.responseType)) {
+			this.onSuccess(this.processScripts(text), xml);
+			this.resolve({text: text, xml: xml});
+		} else {
+			this.onSuccess(text);
+			this.resolve(text);
+		}
+	}
+});
 var Shop = {
 	isMobileDevice:function() {
 	    return $defined(window.cordova); //(typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
@@ -3355,7 +3395,8 @@ Shop.Platform = new Class({
 			'TPHTimeselect',
 			'TPHComponent',
 			'TPHTree',
-			'libphonenumber'
+			'libphonenumber',
+			'Zip'
 		],function(){
 			this.loadAccount(function(result){	
 	            console.log('Account Loaded');
@@ -4740,7 +4781,8 @@ Shop.Registry = new Class({
                     var el = new Element('div',{
                         'class':'font small padded',
 						styles:{
-							height:'100%'
+							height:'100%',
+							overflow:'hidden'
 						}
                     }).inject(container)
                         .adopt(new Element('div').set('html','Getting ready. Please wait...'))
@@ -4761,7 +4803,7 @@ Shop.Registry = new Class({
                         progressBar:new ProgressBar.Line(new Element('div',{'class':''}).inject(el), {
                             strokeWidth: 2,
                             color: '#FCB03C',
-							durtaion:500,
+							durtaion:10,
 							text:{
 								style:{
 									color: '#000',
@@ -4776,6 +4818,9 @@ Shop.Registry = new Class({
 									}
 								}
 								
+							},
+							step:function(state,bar,attachment){
+								bar.setText((bar.value()*100).round(2)+'%');
 							}
                         })
                     });
@@ -4791,23 +4836,31 @@ Shop.Registry = new Class({
 
 				if (!loaded) {
 					//console.log(namespace,Object.keys(appData.templates));
-					console.log('Templates',progressOptions.count);
-					this.requestAppTemplates(appName,appData,namespace,templates,function(){
-						appData.templatesLoaded = true;
-						//storage.set(appName,Json.encode(result));
-						if ($defined(progressOptions.progressBar)) {
-							progressOptions.progressBar.animate(1,function(){
-								progressOptions.progressBar.destroy();
-								delete(progressOptions.progressBar);
-								progressOptions.container.destroy();
-								if ($type(onLoad)=='function') {
-									onLoad(appName);
-								}	
-							}.bind(this));	
-						} else if ($type(onLoad)=='function') {
-							onLoad(appName);
-						}
-					}.bind(this),onError,progressOptions);
+					//console.log('Templates',progressOptions.count,appData.templates);
+					if ($defined(progressOptions.progressBar)) {
+						progressOptions.progressBar.animate(0.5,function(){
+							this.generateAppTemplates(appName,appData,namespace,templates,function(){
+								appData.templatesLoaded = true;
+								progressOptions.progressBar.setText('100%');
+								progressOptions.progressBar.animate(1,function(){
+									progressOptions.progressBar.destroy();
+									delete(progressOptions.progressBar);
+									progressOptions.container.destroy();
+									if ($type(onLoad)=='function') {
+										onLoad(appName);
+									}	
+								}.bind(this));	
+							}.bind(this),onError,progressOptions);
+						}.bind(this));
+					} else {
+						this.generateAppTemplates(appName,appData,namespace,templates,function(){
+							appData.templatesLoaded = true;
+							if ($type(onLoad)=='function') {
+								onLoad(appName);
+							}
+						}.bind(this),onError,progressOptions);
+					}
+					
 				}
 			}
 		}
@@ -4816,6 +4869,62 @@ Shop.Registry = new Class({
             onLoad(appName);
         }
 	},
+	generateAppTemplates:function(appName,appData,namespace,templates,onComplete,onError,progressOptions){
+		var data = {
+			option:'com_shop',
+			task:'generatetemplates',
+			format:'json',
+			appName:appName,
+			namespace:namespace,
+			templates:appData.templates
+		};
+		if ($defined(TPH.$session)) {
+			data.session = TPH.$session;
+		}
+		if ($defined(TPH.$token)) {
+			data[TPH.$token]=1;
+		}
+
+		new TPH.Json({
+			method:'post',
+			data:data,
+			onComplete:function(content){
+				//console.log(content);
+				var storeKey = namespace=='plugins'?[namespace,this.options.platform].join('.'):namespace;
+				var templateStorage = this.getStorage(storeKey);
+				var templateStored = $pick(templateStorage.get(appName),{});
+				//var indexStorage = this.getStorage(storeKey+'.index');
+				//var indexAppId = indexStorage.get(appName);
+				//console.log(appName,indexAppId,content.id);
+				if (templateStored.id!=content.id) {
+					//indexStorage.set(appName,content.id);
+					appData.templates = content.templates;
+					templateStorage.set(appName,content);
+				} else {
+					appData.templates = templateStored.templates;
+				}
+
+				$pick(onComplete,$empty)();
+				/*
+				var reader = new zip.ZipReader(new zip.TextReader(blob));
+				console.log('Loaded Templates for '+namespace+'-'+appName);
+				reader.getEntries().then(function(entries){
+					console.log(entries);
+				});
+				*/
+			}.bind(this),
+			onFailure:function(){
+				TPH.confirm('System Message','Unable to download App resources.<br />Please make sure your internet connection is stable.',function(){
+					this.generateAppTemplates(appName,appData,namespace,templates,onComplete,onError,progressOptions);
+				}.bind(this),onError,$empty,{
+					okText:'Try Again',
+					cancelText:'Close',
+					messageClass:'alertMessage'
+				});
+			}.bind(this)
+		}).request();
+	},
+	/*
 	requestAppTemplates:function(appName,appData,namespace,templates,onComplete,onError,progressOptions){
 		if (templates.length){
 			var storeKey = namespace=='plugins'?[namespace,this.options.platform].join('.'):namespace;
@@ -4846,7 +4955,7 @@ Shop.Registry = new Class({
 					storage.set(id,result);
 					progressOptions.loaded++;
 					progressOptions.progress = progressOptions.loaded/progressOptions.count;
-					//console.log('Loaded',progressOptions.progress);
+					console.log('Loaded',progressOptions.progress);
 					if ($defined(progressOptions.progressBar)) {
 						progressOptions.progressBar.setText((progressOptions.progress*100).round(2)+'%');
 						progressOptions.progressBar.animate(progressOptions.progress,function(){
@@ -4881,6 +4990,7 @@ Shop.Registry = new Class({
 			}.bind(this)
 		}).send();
 	},
+	*/
 	getApp:function(appName){
 		return this.$items[appName];
 	},
@@ -5770,7 +5880,7 @@ Shop.App = new Class({
 		
 		this.containers.select(this.options.containers[0].id);
 		
-		//TPH.Tools.instance.scanContainer(this.container);
+		TPH.Tools.instance.scanContainer(this.container);
 		this.scanActions(this.container);
 		$fullHeight.delay(500,this,this.container);
 		

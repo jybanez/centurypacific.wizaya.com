@@ -9,19 +9,20 @@
 	        },
 	        plugins:[]
 	    },
+	    $sessionId:null,
 	    initialize:function(options){
-	    	console.log('Starting Engine...');
 	        this.setOptions(options);
 	        ENGINE.instance = this;
 	        
-	        var sessionId = $pick(this.getStorage('session'),TPH.$session);
-	        if ($defined(sessionId)) {
-	        	console.log('Session ID '+sessionId);
-	        	this.setSessionId(sessionId);
-	        } 
-	        
-	        window.fireEvent('onLoadEngine',[this]);
 	        TPH.loadAsset('LZString',function(){
+	            
+	            var sessionId = $pick(TPH.$session,this.getStorage('session'));
+                if ($defined(sessionId)) {
+                    this.setSessionId(sessionId);
+                } 
+                
+                window.fireEvent('onLoadEngine',[this]);
+            
 				if (!this.sessionReady) {
 					this.check(function(){
 						
@@ -31,14 +32,11 @@
 	    },
 	    getStorage:function(key){
 	    	if ($defined(window.localStorage)) {
-				var value = localStorage.getItem(key);
-				console.log('Retrieving '+key+' = '+value);
-	    		return value;
+	    		return localStorage.getItem(key);
 	    	}
 	    },
 	    setStorage:function(key,value){
 	    	if ($defined(window.localStorage)) {
-				console.log('Storing '+key+' '+value);
 	    		localStorage.setItem(key,value);
 	    	}
 	    },
@@ -48,16 +46,12 @@
 	    	}
 	    },
 	    setSessionId:function(sessionId) {
-	    	console.log('Setting Session ID '+sessionId);
-			//if (sessionId!=TPH.$session) {
-				TPH.$session = sessionId;
-				this.setStorage('session',sessionId);
-			//}
-			
+	    	this.$sessionId = sessionId;
+	    	this.setStorage('session',sessionId);
 	    	return this;
 	    },
 	    getSessionId:function(){
-	    	return TPH.$session;
+	    	return this.$sessionId;
 	    },
 	    check:function(onCheck,onFailure){		
 	        if ($defined(this.checkRequest)) {
@@ -77,7 +71,7 @@
             	time:dateStart.format('db'),
             	session:this.getSessionId()
            	});
-           	console.log('Requesting Session Details...');
+           	
 	        this.checkRequest = new TPH.Ajax({
 	            data:params,
 	            onComplete:function(html){	            	
@@ -104,8 +98,8 @@
 	                	$checkTime:dateStart
 	                }));
 	                
-	                if ($defined(data.$session)) {
-	                	this.setSessionId(data.$session);
+	                if ($defined(TPH.$session)) {
+	                	this.setSessionId(TPH.$session);
 	                }
 	                
 	                if (!this.sessionReady) {
@@ -123,7 +117,6 @@
 	                }
 	            }.bind(this),
 	            onFailure:function(){
-	            	console.log('Session Request Failed...');
 	            	if (!this.sessionReady) {
 	            		ENGINE.hideOverlay();
 	            		
