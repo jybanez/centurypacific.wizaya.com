@@ -16,10 +16,11 @@
 	        
 	        TPH.loadAsset('LZString',function(){
 	            
-	            var sessionId = $pick(TPH.$session,this.getStorage('session'));
-                if ($defined(sessionId)) {
-                    this.setSessionId(sessionId);
-                } 
+				var sessionId = $pick(this.getStorage('session'),TPH.$session);
+				if ($defined(sessionId)) {
+					console.log('Session ID '+sessionId);
+					this.setSessionId(sessionId);
+				}  
                 
                 window.fireEvent('onLoadEngine',[this]);
             
@@ -46,12 +47,12 @@
 	    	}
 	    },
 	    setSessionId:function(sessionId) {
-	    	this.$sessionId = sessionId;
-	    	this.setStorage('session',sessionId);
+	    	TPH.$session = sessionId;
+			this.setStorage('session',sessionId);
 	    	return this;
 	    },
 	    getSessionId:function(){
-	    	return this.$sessionId;
+	    	return TPH.$session;
 	    },
 	    check:function(onCheck,onFailure){		
 	        if ($defined(this.checkRequest)) {
@@ -98,8 +99,8 @@
 	                	$checkTime:dateStart
 	                }));
 	                
-	                if ($defined(TPH.$session)) {
-	                	this.setSessionId(TPH.$session);
+	                if ($defined(data.$session)) {
+	                	this.setSessionId(data.$session);
 	                }
 	                
 	                if (!this.sessionReady) {
