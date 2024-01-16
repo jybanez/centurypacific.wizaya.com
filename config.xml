@@ -177,7 +177,7 @@
     <!--<plugin name="cordova-plugin-androidx" />-->
     <!--<plugin name="cordova-plugin-androidx-adapter" />-->
     <!--<plugin name="cordova-httpd" spec="https://github.com/floatinghotpot/cordova-httpd.git" />-->
-    <plugin name="cordova-plugin-local-notification-12" />
+    <plugin name="cordova-plugin-local-notification" />
     <plugin name="cordova-plugin-app-version" />
     <!--<plugin name="cordova-plugin-contacts-x" spec="https://github.com/EinfachHans/cordova-plugin-contacts-x" />-->
     <plugin name="cordova-plugin-iosrtc" />
