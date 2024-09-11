@@ -6122,7 +6122,7 @@ JSON.validate = function(string){
 	return (/^[\],:{}\s]*$/).test(string);
 };
 
-if ($defined(JSON.stringify)) {
+if (JSON.stringify != null) {
 	JSON.encode = JSON.stringify;	
 } else {
 	JSON.encode = function(obj){
