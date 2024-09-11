@@ -6122,29 +6122,31 @@ JSON.validate = function(string){
 	return (/^[\],:{}\s]*$/).test(string);
 };
 
-JSON.encode = JSON.stringify ? function(obj){
-	return JSON.stringify(obj);
-} : function(obj){
-	if (obj && obj.toJSON) obj = obj.toJSON();
-
-	switch (typeOf(obj)){
-		case 'string':
-			return '"' + obj.replace(/[\x00-\x1f\\"]/g, escape) + '"';
-		case 'array':
-			return '[' + obj.map(JSON.encode).clean() + ']';
-		case 'object': case 'hash':
-			var string = [];
-			Object.each(obj, function(value, key){
-				var json = JSON.encode(value);
-				if (json) string.push(JSON.encode(key) + ':' + json);
-			});
-			return '{' + string + '}';
-		case 'number': case 'boolean': return '' + obj;
-		case 'null': return 'null';
-	}
-
-	return null;
-};
+if ($defined(JSON.stringify)) {
+	JSON.encode = JSON.stringify;	
+} else {
+	JSON.encode = function(obj){
+		if (obj && obj.toJSON) obj = obj.toJSON();
+	
+		switch (typeOf(obj)){
+			case 'string':
+				return '"' + obj.replace(/[\x00-\x1f\\"]/g, escape) + '"';
+			case 'array':
+				return '[' + obj.map(JSON.encode).clean() + ']';
+			case 'object': case 'hash':
+				var string = [];
+				Object.each(obj, function(value, key){
+					var json = JSON.encode(value);
+					if (json) string.push(JSON.encode(key) + ':' + json);
+				});
+				return '{' + string + '}';
+			case 'number': case 'boolean': return '' + obj;
+			case 'null': return 'null';
+		}
+	
+		return null;
+	};	
+}
 
 JSON.secure = true;
 
