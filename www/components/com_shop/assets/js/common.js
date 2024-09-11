@@ -9629,6 +9629,7 @@ Shop.GPS = new Class({
 				
 				if (canStore) {
 					console.log('GPS Updated: '+[coords.latitude,coords.longitude].join(', '));
+					console.log('Coords: '+JSON.encode(coords));
 					TPH.$gps = $merge(coords,{
 						aid:this.options.account.id,
 						mid:mid,
@@ -9636,6 +9637,7 @@ Shop.GPS = new Class({
 						timestamp:TPH.getDate().format('db'),
 						session_id:TPH.$session
 					});
+					console.log('TPH.$gps: '+JSON.encode(TPH.$gps));
 					storage.set(TPH.$mid,TPH.$gps);
 					this.storePosition(TPH.$gps);
 					this.fireEvent('onChange',[coords,this]);
