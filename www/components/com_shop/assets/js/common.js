@@ -9629,7 +9629,7 @@ Shop.GPS = new Class({
 				
 				if (canStore) {
 					console.log('GPS Updated: '+[coords.latitude,coords.longitude].join(', '));
-					console.log('Coords: '+JSON.encode(coords));
+					//console.log('Coords: '+JSON.encode(coords));
 					TPH.$gps = {
 						latitude:coords.latitude,
 						longitude:coords.longitude,
