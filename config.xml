@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.wizaya.centurypacific" 
-		version="1.0.42" 
+		version="1.0.43" 
 		versionCode="" 
 		xmlns="http://www.w3.org/ns/widgets" 
 		xmlns:android="http://schemas.android.com/apk/res/android" 
@@ -185,5 +185,6 @@
     <!--<plugin name="cordova-plugin-ios-xhr" spec="https://github.com/globules-io/cordova-plugin-ios-xhr" />-->
     <plugin name="cordova-plugin-intent-list" spec="https://github.com/nick-denry/cordova-plugin-intent-list" />
     <plugin name="cordova-plugin-devoptionschecker" />
+    <plugin name="cordova-plugin-market" />
     <content src="index.html" />
 </widget>
