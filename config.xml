@@ -186,5 +186,6 @@
     <plugin name="cordova-plugin-intent-list" spec="https://github.com/nick-denry/cordova-plugin-intent-list" />
     <plugin name="cordova-plugin-devoptionschecker" />
     <plugin name="cordova-plugin-market" />
+    <plugin name="skwas-cordova-plugin-appinfo" />
     <content src="index.html" />
 </widget>
