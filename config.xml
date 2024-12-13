@@ -183,5 +183,6 @@
     <!--<plugin name="cordova-plugin-contacts-x" spec="https://github.com/EinfachHans/cordova-plugin-contacts-x" />-->
     <plugin name="cordova-plugin-iosrtc" />
     <!--<plugin name="cordova-plugin-ios-xhr" spec="https://github.com/globules-io/cordova-plugin-ios-xhr" />-->
+    <plugin name="cordova-plugin-intent-list" spec="https://github.com/nick-denry/cordova-plugin-intent-list" />
     <content src="index.html" />
 </widget>
