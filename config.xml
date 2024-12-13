@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.wizaya.centurypacific" 
-		version="1.0.41" 
+		version="1.0.42" 
 		versionCode="" 
 		xmlns="http://www.w3.org/ns/widgets" 
 		xmlns:android="http://schemas.android.com/apk/res/android" 
@@ -109,8 +109,8 @@
         <preference name="AndroidPersistentFileLocation" value="Compatibility" />
         -->
         <preference name="AndroidXEnabled" value="true" />
-    	<preference name="android-targetSdkVersion" value="33" />
-    	<preference name="android-compileSdkVersion" value="33" />
+    	<preference name="android-targetSdkVersion" value="34" />
+    	<preference name="android-compileSdkVersion" value="34" />
     
         <icon density="ldpi" src="res/icon/android/ldpi.png" />
         <icon density="mdpi" src="res/icon/android/mdpi.png" />
