@@ -170,7 +170,7 @@
     <plugin name="cordova-plugin-dialogs" />
     <plugin name="cordova-plugin-file" />
     <plugin name="cordova-plugin-vibration" />
-    <plugin name="cordova.plugins.diagnostic" />
+    <plugin name="cordova.plugins.diagnostic" spec="https://github.com/dpa99c/cordova-diagnostic-plugin" />
     <plugin name="cordova-plugin-fullscreen" />
     <plugin name="cordova-plugin-bluetooth-printer" spec="https://github.com/jybanez/BluetoothPrinter" />
     <plugin name="cordova-plugin-camera" spec="https://github.com/apache/cordova-plugin-camera.git" />
