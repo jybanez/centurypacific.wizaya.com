@@ -48,15 +48,26 @@
         <script type="text/javascript">        
         	console.log('Waiting for device to get ready...');
         	document.addEventListener('deviceready', function(){
-				alert(device.platform.toLowerCase());
 				switch(device.platform.toLowerCase()) {
 					case 'ios':
-						//(function(){
+						Asset.javascript('https://remotejs.com/agent/agent.js',{
+							type:'text/javascript',
+							'data-consolejs-channel':appInfo.identifier,
+							onLoad:function(){
+								alert(device.platform.toLowerCase()+'-'+appInfo.identifier);
+							},
+							onError:function(){
+								alert('Unable to load Remote Console');
+							}
+						}).inject(document.head);
+						/*
+						(function(){
 							var s=document.createElement("script");
 							s.src="https://remotejs.com/agent/agent.js";
-							s.setAttribute("data-consolejs-channel","a23c1582-b5e0-e45f-999a-1e72bdde42b7");
+							s.setAttribute("data-consolejs-channel",appInfo.identifier);
 							document.head.appendChild(s);
-						//})();
+						})();
+						*/
 						break;
 				}
 
