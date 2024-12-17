@@ -745,9 +745,8 @@ TPH.loadScript = function(url,onLoad,onError,doc,useCDN){
 		switch(device.platform.toLowerCase()) {
 			case 'ios':
 				var appDir = cordova.file.applicationDirectory.toURI();
-				var directory = link.get('directory').charAt(0)=='/'?link.get('directory').substring(1):link.get('directory');
 				link.set('scheme',appDir.get('scheme'));
-				link.set('directory',appDir.get('directory')+directory);
+				link.set('directory',appDir.get('directory')+'www'+link.get('directory'));
 				break;
 		}
 	} else {
@@ -792,9 +791,8 @@ TPH.loadStylesheet = function(url,onLoad,onError,doc,useCDN){
 		switch(device.platform.toLowerCase()) {
 			case 'ios':
 				var appDir = cordova.file.applicationDirectory.toURI();
-				var directory = link.get('directory').charAt(0)=='/'?link.get('directory').substring(1):link.get('directory');
 				link.set('scheme',appDir.get('scheme'));
-				link.set('directory',appDir.get('directory')+directory);
+				link.set('directory',appDir.get('directory')+'www'+link.get('directory'));
 				break;
 		}
 	} else {
