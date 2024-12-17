@@ -611,65 +611,65 @@ $extend(TPH,{
 });
 
 TPH.Assets = {
-	Howl				:'includes/js/vendor/howler/howler.js',
-	QRCode				:'includes/js/vendor/qrcode.js',
-	Swiper				:['includes/js/swiper.js','includes/css/swiper.css'],
-	ZXing				:'includes/js/vendor/zxing.js',
+	Howl				:'/includes/js/vendor/howler/howler.js',
+	QRCode				:'/includes/js/vendor/qrcode.js',
+	Swiper				:['/includes/js/swiper.js','/includes/css/swiper.css'],
+	ZXing				:'/includes/js/vendor/zxing.js',
 	L					:[
-						'includes/js/leaflet.js',
+						'/includes/js/leaflet.js',
 						//'/includes/js/leaflet.mapcenter.js',
-						'includes/css/leaflet.css'],
-	XLSX				:'includes/js/vendor/xlsx.js',
-	canvasDatagrid		:'includes/js/vendor/canvas-datagrid.js',
-	EXIF				:'includes/js/vendor/exif.js',
-	libphonenumber		:'includes/js/vendor/libphonenumber.js',
-	opentype			:'includes/js/vendor/opentype.js',
-	LZString			:'includes/js/vendor/lz-string.js',
-	Print				:'includes/js/print.js',
+						'/includes/css/leaflet.css'],
+	XLSX				:'/includes/js/vendor/xlsx.js',
+	canvasDatagrid		:'/includes/js/vendor/canvas-datagrid.js',
+	EXIF				:'/includes/js/vendor/exif.js',
+	libphonenumber		:'/includes/js/vendor/libphonenumber.js',
+	opentype			:'/includes/js/vendor/opentype.js',
+	LZString			:'/includes/js/vendor/lz-string.js',
+	Print				:'/includes/js/print.js',
 	PageEditor			:[
-							'includes/js/grapes/grapes.min.js',
-							'includes/js/grapes/grapesjs-preset-webpage.min.js',
-							'includes/css/grapes/grapes.css',
-							'includes/css/grapes/grapesjs-preset-webpage.min.css',
-							'includes/js/tph/page.editor.js',
-							'includes/css/tph/page.editor.css'
+							'/includes/js/grapes/grapes.min.js',
+							'/includes/js/grapes/grapesjs-preset-webpage.min.js',
+							'/includes/css/grapes/grapes.css',
+							'/includes/css/grapes/grapesjs-preset-webpage.min.css',
+							'/includes/js/tph/page.editor.js',
+							'/includes/css/tph/page.editor.css'
 						],
-	Codemirror			:['includes/js/codemirror/lib/codemirror.js','includes/css/codemirror.css'],
-	CodemirrorMode		:'includes/js/codemirror/addon/mode/loadmode.js',
-	CodemirrorMeta		:'includes/js/codemirror/mode/meta.js',
-	CSS					:'includes/js/tph/css.js',
-	DOM					:'includes/js/tph/dom.js',
-	CKEDITOR			:'includes/js/ckeditor/ckeditor.js',
-    Progressbar			:'includes/js/vendor/progressbar.js',
-	jsPDF				:'includes/js/vendor/jspdf.min.js',
-    jsPDFAutoTable		:'includes/js/vendor/jspdf/autotable.js',
-    DayPilot			:['includes/js/daypilot.js'],
-    CanvasJS			:'includes/js/canvasjs.min.js',
-    Calendar			:'includes/js/vendor/calendar.js',
-    NoSleep				:'includes/js/vendor/nosleep.js',
-    Hammer				:'includes/js/vendor/hammer.js',
-    RAF					:'includes/js/vendor/raf.js',
-    Editorjs			:'includes/js/vendor/editorjs.js',
-    MaterializeSocial	:'includes/css/materialize-social.css',
-    RollDate			:'includes/js/vendor/rolldate.js',
+	Codemirror			:['/includes/js/codemirror/lib/codemirror.js','/includes/css/codemirror.css'],
+	CodemirrorMode		:'/includes/js/codemirror/addon/mode/loadmode.js',
+	CodemirrorMeta		:'/includes/js/codemirror/mode/meta.js',
+	CSS					:'/includes/js/tph/css.js',
+	DOM					:'/includes/js/tph/dom.js',
+	CKEDITOR			:'/includes/js/ckeditor/ckeditor.js',
+    Progressbar			:'/includes/js/vendor/progressbar.js',
+	jsPDF				:'/includes/js/vendor/jspdf.min.js',
+    jsPDFAutoTable		:'/includes/js/vendor/jspdf/autotable.js',
+    DayPilot			:['/includes/js/daypilot.js'],
+    CanvasJS			:'/includes/js/canvasjs.min.js',
+    Calendar			:'/includes/js/vendor/calendar.js',
+    NoSleep				:'/includes/js/vendor/nosleep.js',
+    Hammer				:'/includes/js/vendor/hammer.js',
+    RAF					:'/includes/js/vendor/raf.js',
+    Editorjs			:'/includes/js/vendor/editorjs.js',
+    MaterializeSocial	:'/includes/css/materialize-social.css',
+    RollDate			:'/includes/js/vendor/rolldate.js',
     
-    HEREFlexiblePolyline:'includes/js/vendor/here/flexiblepolyline.js',
+    HEREFlexiblePolyline:'/includes/js/vendor/here/flexiblepolyline.js',
     
-    TPHGrid				:['includes/js/tph/grid.js','includes/css/tph/grid.css'],
-    TPHScrollbar		:['includes/js/tph/scrollbar.js','includes/css/tph/scrollbar.css'],
-    TPHWall				:['includes/js/tph/wall.js','includes/css/tph/wall.css'],
-    TPHTable			:['includes/js/tph/table.js','includes/css/tph/table.css'],
-    TPHSlide			:['includes/js/tph/slide.js'],
-    TPHProgress			:['includes/js/tph/progress.js'],
-    TPHTimeselect		:['includes/js/timeselect.js','includes/css/timeselect.css'],
-    TPHComponent		:['includes/js/tph/component.js'],
-    TPHTree				:['includes/js/tph/tree.js'],
-    TPHHTMLBuilder		:['includes/js/tph/html.builder.js'],
-    HLS					:['includes/js/vendor/hls.js'],
-    PanZoom				:['includes/js/vendor/panzoom.min.js'],
-    agGrid				:['includes/js/vendor/ag-grid-community.min.js'],
-	JSZip				:['includes/js/vendor/jszip.js'],
-	Zip					:['includes/js/vendor/zip.js']
+    TPHGrid				:['/includes/js/tph/grid.js','/includes/css/tph/grid.css'],
+    TPHScrollbar		:['/includes/js/tph/scrollbar.js','/includes/css/tph/scrollbar.css'],
+    TPHWall				:['/includes/js/tph/wall.js','/includes/css/tph/wall.css'],
+    TPHTable			:['/includes/js/tph/table.js','/includes/css/tph/table.css'],
+    TPHSlide			:['/includes/js/tph/slide.js'],
+    TPHProgress			:['/includes/js/tph/progress.js'],
+    TPHTimeselect		:['/includes/js/timeselect.js','/includes/css/timeselect.css'],
+    TPHComponent		:['/includes/js/tph/component.js'],
+    TPHTree				:['/includes/js/tph/tree.js'],
+    TPHHTMLBuilder		:['/includes/js/tph/html.builder.js'],
+    HLS					:['/includes/js/vendor/hls.js'],
+    PanZoom				:['/includes/js/vendor/panzoom.min.js'],
+    agGrid				:['/includes/js/vendor/ag-grid-community.min.js'],
+	JSZip				:['/includes/js/vendor/jszip.js'],
+	Zip					:['/includes/js/vendor/zip.js']
 };
 TPH.AssetsLoaded = new Array();
 TPH.AssetAlias = {
@@ -734,22 +734,25 @@ TPH.loadAssets = function(assets,onLoad){
 };
 
 TPH.loadScript = function(url,onLoad,onError,doc,useCDN){
+	console.log('Loading Script Asset:'+url);
 	var doc = $pick(doc,document);
 	if (!$defined(doc.$scripts)) {
 		doc.$scripts = new Array();
 	}
 	var link = url.toURI();
-	var servers = $pick(TPH.$servers,{});
-	if ($defined(servers.cdn) && $pick(useCDN,true)) {
-		var cdn = servers.cdn.toURI();
-		link.set('scheme',cdn.get('scheme'));
-		link.set('host',cdn.get('host'));
-		link.set('port',null);
-	} else if ($defined(TPH.$remote) && $pick(useCDN,true)) {
-		var remote = TPH.$remote.toURI();
-		link.set('scheme',remote.get('scheme'));
-		link.set('host',remote.get('host'));
-		link.set('port',null);
+	if (!$defined(window.cordova)) {
+		var servers = $pick(TPH.$servers,{});
+		if ($defined(servers.cdn) && $pick(useCDN,true)) {
+			var cdn = servers.cdn.toURI();
+			link.set('scheme',cdn.get('scheme'));
+			link.set('host',cdn.get('host'));
+			link.set('port',null);
+		} else if ($defined(TPH.$remote) && $pick(useCDN,true)) {
+			var remote = TPH.$remote.toURI();
+			link.set('scheme',remote.get('scheme'));
+			link.set('host',remote.get('host'));
+			link.set('port',null);
+		}
 	}
 	
 	if (!doc.$scripts.contains(link.toString())) {
@@ -769,22 +772,25 @@ TPH.loadScript = function(url,onLoad,onError,doc,useCDN){
 };
 
 TPH.loadStylesheet = function(url,onLoad,onError,doc,useCDN){
+	console.log('Loading Stylesheet Asset:'+url);
 	var doc = $pick(doc,document);
 	if (!$defined(doc.$stylesheets)) {
 		doc.$stylesheets = new Array();
 	}
 	var link = url.toURI();
-	var servers = $pick(TPH.$servers,{});
-	if ($defined(servers.cdn) && $pick(useCDN,true)) {
-		var cdn = servers.cdn.toURI();
-		link.set('scheme',cdn.get('scheme'));
-		link.set('host',cdn.get('host'));
-		link.set('port',null);
-	} else if ($defined(TPH.$remote) && $pick(useCDN,true)) {
-		var remote = TPH.$remote.toURI();
-		link.set('scheme',remote.get('scheme'));
-		link.set('host',remote.get('host'));
-		link.set('port',null);
+	if (!$defined(window.cordova)) {
+		var servers = $pick(TPH.$servers,{});
+		if ($defined(servers.cdn) && $pick(useCDN,true)) {
+			var cdn = servers.cdn.toURI();
+			link.set('scheme',cdn.get('scheme'));
+			link.set('host',cdn.get('host'));
+			link.set('port',null);
+		} else if ($defined(TPH.$remote) && $pick(useCDN,true)) {
+			var remote = TPH.$remote.toURI();
+			link.set('scheme',remote.get('scheme'));
+			link.set('host',remote.get('host'));
+			link.set('port',null);
+		}
 	}
 
 	if (!doc.$stylesheets.contains(link.toString())) {
