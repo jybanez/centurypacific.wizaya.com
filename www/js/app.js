@@ -402,6 +402,10 @@ var App = {
 				});
 				this.getData(function(data){
 					console.log('App Data',data);
+					$extend(TPH,{
+						$remote:this.app,
+						$session:data.session
+					});
 					var body = this.$body.appendHTML(data.body,'top');
 					var head = this.$head;
 					//this.startSpin('Updating. Please wait...');
@@ -425,10 +429,6 @@ var App = {
 									new Asset.javascript(scriptUrl,{
 										onload:function(){
 											console.log('Script loaded.');
-											$extend(TPH,{
-												$remote:this.app,
-												$session:data.session
-											});
 											if ($defined(data.inlineScripts)) {
 												console.log('Running inline scripts...');
 												new Function(data.inlineScripts)();	
@@ -441,8 +441,6 @@ var App = {
 								} else {
 									console.log('No script loaded.');
 									$extend(TPH,{
-										$remote:this.app,
-										$session:data.session,
 										$servers:{
 											download:"https://download.wizaya.com",
 											cdn:"https://cdn.wizaya.com"
@@ -450,31 +448,18 @@ var App = {
 									});
 									console.log('Firing ENGINE.');
 									new ENGINE();
-									/*
-									if ($defined(data.inlineScripts)) {
-										console.log('Running inline scripts...');
-										console.log(data.inlineScripts);
-										new Function(data.inlineScripts)();	
-									}
-									console.log(TPH);
-									console.log('Firing domready event');
-									window.fireEvent.delay(500,window,'domready');
-									*/
 								}
 							}.bind(this));		
 						} else {
 							console.log('No script loaded.');
 							$extend(TPH,{
-								$remote:this.app,
-								$session:data.session
+								$servers:{
+									download:"https://download.wizaya.com",
+									cdn:"https://cdn.wizaya.com"
+								}
 							});
-							if ($defined(data.inlineScripts)) {
-								console.log('Running inline scripts...');
-								new Function(data.inlineScripts)();	
-							}
-							
-							console.log('Firing domready event');
-							window.fireEvent.delay(500,window,'domready');
+							console.log('Firing ENGINE.');
+							new ENGINE();
 						}
 					}.bind(this));				
 				}.bind(this),function(e){
