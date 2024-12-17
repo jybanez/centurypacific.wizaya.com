@@ -411,7 +411,7 @@ var App = {
 					}	
 				});
 				this.getData(function(data){
-					console.log('App Data',Jsone.encode(data));
+					console.log('App Data',Json.encode(data));
 					$extend(TPH,{
 						$remote:this.app,
 						$session:data.session
