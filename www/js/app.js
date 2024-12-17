@@ -411,7 +411,7 @@ var App = {
 					}	
 				});
 				this.getData(function(data){
-					console.log('App Data',data);
+					console.log('App Data',Jsone.encode(data));
 					$extend(TPH,{
 						$remote:this.app,
 						$session:data.session
@@ -444,8 +444,8 @@ var App = {
 												new Function(data.inlineScripts)();	
 											}
 											
-											console.log('Firing domready event');
-											window.fireEvent.delay(500,window,'domready');
+											//console.log('Firing domready event');
+											//window.fireEvent.delay(500,window,'domready');
 										}.bind(this)
 									});	
 								} 
@@ -470,8 +470,8 @@ var App = {
 								console.log('Running inline scripts...');
 								new Function(data.inlineScripts)();
 								
-								console.log('Firing domready event');
-								window.fireEvent.delay(500,window,'domready');
+								//console.log('Firing domready event');
+								//window.fireEvent.delay(500,window,'domready');
 							} else {
 								console.log('No inline scripts...');
 								$extend(TPH,{
