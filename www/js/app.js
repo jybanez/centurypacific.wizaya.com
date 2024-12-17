@@ -30,7 +30,7 @@ var App = {
 		$assetsUpdated:false,
 		initialize:function(app,options){    
 			App.$instance = this;
-			 
+
 			this.app = app;
 			var url = app.toURI();
 			this.$id = url.get('host');
@@ -48,25 +48,14 @@ var App = {
 			//}
 			
 			
-			this.intro(); //function(){
-				this.initializeAssets();
-				if ($defined(cordova.getAppVersion)) {
-					cordova.getAppVersion.getVersionNumber(function (version) {
-						this.$version = version;
-						App.FileSystem.getInstance('PERSISTENT',{
-							base:'/'+this.$id,
-							onReady:function(instance){
-								this.$fileSystem = instance;
-								
-								this.initializeNetwork.delay(200,this,function(){
-									this.run(function(){
-										this.hideSplash();
-									}.bind(this));	
-								}.bind(this));
-							}.bind(this)
-						});
-					}.bind(this));	
-				} else {
+			this.intro(function(){
+				this.clearIntro();
+			}.delay(1000,this)); 
+			
+			this.initializeAssets();
+			if ($defined(cordova.getAppVersion)) {
+				cordova.getAppVersion.getVersionNumber(function (version) {
+					this.$version = version;
 					App.FileSystem.getInstance('PERSISTENT',{
 						base:'/'+this.$id,
 						onReady:function(instance){
@@ -79,8 +68,21 @@ var App = {
 							}.bind(this));
 						}.bind(this)
 					});
-				}
-			//}.bind(this));
+				}.bind(this));	
+			} else {
+				App.FileSystem.getInstance('PERSISTENT',{
+					base:'/'+this.$id,
+					onReady:function(instance){
+						this.$fileSystem = instance;
+						
+						this.initializeNetwork.delay(200,this,function(){
+							this.run(function(){
+								this.hideSplash();
+							}.bind(this));	
+						}.bind(this));
+					}.bind(this)
+				});
+			}
 			
 			
 			
@@ -120,11 +122,11 @@ var App = {
 					this.$intro.fade('in');
 				}.bind(this),false);
 				this.$intro.addEventListener('ended',function(){
-					this.clearIntro();
+					//this.clearIntro();
 					$pick(onComplete,$empty)();
 				}.bind(this),false);
 				this.$intro.addEventListener('error',function(){
-					this.clearIntro();
+					//this.clearIntro();
 					$pick(onComplete,$empty)();
 				}.bind(this),false);
 				
