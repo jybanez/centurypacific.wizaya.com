@@ -328,9 +328,7 @@ var App = {
 					content:[result]
 				},function(entry){
 					var data = Json.decode(result);
-					var stylesheet = data.stylesheet.toURI(),	
-						javascript = data.script.toURI();
-					new App.Localizer(this.$fileSystem,{
+					var localizer = new App.Localizer(this.$fileSystem,{
 						overwrite:true,
 						onDownloadComplete:function(){
 							//console.log('Update Complete');
@@ -339,13 +337,25 @@ var App = {
 							}
 							
 						}.bind(this)
-					}).setItems([{
-						source:data.stylesheet,
-						target:stylesheet.get('directory')+stylesheet.get('file')
-					},{
-						source:data.script,
-						target:javascript.get('directory')+javascript.get('file')
-					}]).download();	
+					});
+					var contents = new Array();
+					if ($defined(data.stylesheet)) {
+						var stylesheet = data.stylesheet.toURI();	
+						contents.push({
+							source:data.stylesheet,
+							target:stylesheet.get('directory')+stylesheet.get('file')
+						});
+					}
+					if ($defined(data.script)) {
+						var javascript = data.script.toURI();
+						contents.push({
+							source:data.script,
+							target:javascript.get('directory')+javascript.get('file')
+						});
+					}
+					if (contents.length) {
+						localizer.setItems(contents).download();
+					}	
 				}.bind(this),onError);
 			}.bind(this),onError);
 		},
@@ -438,7 +448,9 @@ var App = {
 											window.fireEvent.delay(500,window,'domready');
 										}.bind(this)
 									});	
-								} else {
+								} 
+								/*
+								else {
 									console.log('No script loaded.');
 									$extend(TPH,{
 										$servers:{
@@ -449,17 +461,28 @@ var App = {
 									console.log('Firing ENGINE.');
 									new ENGINE();
 								}
+								*/
 							}.bind(this));		
 						} else {
 							console.log('No script loaded.');
-							$extend(TPH,{
-								$servers:{
-									download:"https://download.wizaya.com",
-									cdn:"https://cdn.wizaya.com"
-								}
-							});
-							console.log('Firing ENGINE.');
-							new ENGINE();
+
+							if ($defined(data.inlineScripts)) {
+								console.log('Running inline scripts...');
+								new Function(data.inlineScripts)();
+								
+								console.log('Firing domready event');
+								window.fireEvent.delay(500,window,'domready');
+							} else {
+								console.log('No inline scripts...');
+								$extend(TPH,{
+									$servers:{
+										download:"https://download.wizaya.com",
+										cdn:"https://cdn.wizaya.com"
+									}
+								});
+								console.log('Firing ENGINE.');
+								new ENGINE();
+							}
 						}
 					}.bind(this));				
 				}.bind(this),function(e){

@@ -13,9 +13,9 @@
 	    initialize:function(options){
 	        this.setOptions(options);
 	        ENGINE.instance = this;
-	        
-	        TPH.loadAsset('LZString',function(){
-	            
+	        console.log('Initializing Engine...');
+
+	        TPH.loadAsset('LZString',function(){	            
 				var sessionId = $pick(this.getStorage('session'),TPH.$session);
 				if ($defined(sessionId)) {
 					console.log('Session ID '+sessionId);
@@ -55,6 +55,7 @@
 	    	return TPH.$session;
 	    },
 	    check:function(onCheck,onFailure){		
+			console.log('ENGINE: Starting checks...');
 	        if ($defined(this.checkRequest)) {
 	            if (this.checkRequest.isRunning()) {
 	                this.checkRequest.cancel();
@@ -75,6 +76,13 @@
            	
 	        this.checkRequest = new TPH.Ajax({
 	            data:params,
+				noConnection:function(message){
+					TPH.confirm('System Message','Unable to connect to server. Please check your internet connection.',function(){
+						this.check(onCheck,onFailure);
+					}.bind(this),$empty,$empty,{
+						okText:'Retry'
+					});
+				}.bind(this),
 	            onComplete:function(html){	            	
 	            	//console.log(html);
 	            	//console.log(html.base64_decode());
