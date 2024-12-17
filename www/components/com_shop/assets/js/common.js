@@ -9955,8 +9955,8 @@ Shop.Realtime.Ably = new Class({
 		this.$channel.subscribe(function(msg) {
 			var data = msg.data,
 				name = msg.name;
-				//console.log(msg);
-			if ($defined(data)) {
+			console.log('Message Received '+msg);
+			if ($defined(data) && $defined(name)) {
 				switch(msg.clientId){
 					case 'server':
 						//name = name.base64_decode();
