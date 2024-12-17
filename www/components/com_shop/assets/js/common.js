@@ -83,7 +83,7 @@
 						});	
 					}									
 				} else if ($type(onLoad)=='function') {
-					onLoad();	 
+					onLoad();	
 				}
 			});
 		},
@@ -179,6 +179,7 @@
 	});
 })();
 */
+
 if ($defined(window.cordova) && !window.$mobileInitialized) {
 	console.log('Initialize Mobile Native Functions');
 	
@@ -4888,6 +4889,9 @@ Shop.Registry = new Class({
 		new TPH.Json({
 			method:'post',
 			data:data,
+			notices:{
+				noConnection:false
+			},
 			onComplete:function(content){
 				//console.log(content);
 				var storeKey = namespace=='plugins'?[namespace,this.options.platform].join('.'):namespace;
@@ -7132,6 +7136,7 @@ Shop.App.SupplierSelect = new Class({
 				win.content.empty();	
 			}.bind(this)
 		}).open(function(win){
+			//var selectName = this.getName();
 			this.$supplierForm = new Shop.Forms.Supplier(win.content,{
 				data:this.getParams(),
 				template:this.options.templates.form,
@@ -7145,7 +7150,8 @@ Shop.App.SupplierSelect = new Class({
 					win.startSpin();
 				},
 				onSave:function(data){
-					Shop.App[this.getName()].$items.push(data);
+					this.addItem(data);
+					//Shop.App[selectName].$items.push(data);
 					this.list();
 					this.fireEvent('onSelect',[data,this]);
 					win.stopSpin();
@@ -9451,11 +9457,14 @@ Shop.GPS = new Class({
 				TPH.$gpsError = null;
 				this.$watchId = navigator.geolocation.watchPosition(function(position){
 					if ($defined(position.coords.latitude) && $defined(position.coords.longitude)) {
-						var coords = $merge(position.coords,{
+						this.setCurrentPosition.debounce(this,500,[{
+							accuracy:position.coords.accuracy,
+							altitude:position.coords.altitude,
+							heading:position.coords.heading,
+							speed:position.coords.speed,
 							latitude:position.coords.latitude.round(this.options.precision),
 							longitude:position.coords.longitude.round(this.options.precision)
-						});
-						this.setCurrentPosition.debounce(this,500,[coords]);	
+						}]);	
 					}
 					if ($type(onStart)=='function') {
 						onStart();
@@ -9629,22 +9638,13 @@ Shop.GPS = new Class({
 				
 				if (canStore) {
 					console.log('GPS Updated: '+[coords.latitude,coords.longitude].join(', '));
-					//console.log('Coords: '+JSON.encode(coords));
-					TPH.$gps = {
-						latitude:coords.latitude,
-						longitude:coords.longitude,
-						altitude:coords.altitude,
-						altitudeAccuracy:coords.altitudeAccuracy,
-						accuracy:coords.accuracy,
-						heading:coords.heading,
-						speed:coords.speed,
+					TPH.$gps = $merge(coords,{
 						aid:this.options.account.id,
 						mid:mid,
 						ip:TPH.$ip,
 						timestamp:TPH.getDate().format('db'),
 						session_id:TPH.$session
-					};
-					console.log('TPH.$gps: '+JSON.encode(TPH.$gps));
+					});
 					storage.set(TPH.$mid,TPH.$gps);
 					this.storePosition(TPH.$gps);
 					this.fireEvent('onChange',[coords,this]);
@@ -9955,8 +9955,8 @@ Shop.Realtime.Ably = new Class({
 		this.$channel.subscribe(function(msg) {
 			var data = msg.data,
 				name = msg.name;
-			console.log('Message Received '+msg);
-			if ($defined(data) && $defined(name)) {
+				//console.log(msg);
+			if ($defined(data)) {
 				switch(msg.clientId){
 					case 'server':
 						//name = name.base64_decode();

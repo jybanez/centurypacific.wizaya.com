@@ -677,6 +677,7 @@ TPH.AssetAlias = {
 };
 
 TPH.loadAsset = function(library,onLoad) {
+	console.log('Loading Asset Library '+library);
 	var library = $pick(TPH.AssetAlias[library],library);
 	//console.log(library,!$defined(window[library]) && !TPH.AssetsLoaded.contains(library));
 	if (!$defined(window[library]) || !TPH.AssetsLoaded.contains(library)) {
@@ -734,7 +735,7 @@ TPH.loadAssets = function(assets,onLoad){
 };
 
 TPH.loadScript = function(url,onLoad,onError,doc,useCDN){
-	console.log('Loading Script Asset:'+url);
+	console.log('Loading Asset Script:'+url);
 	var doc = $pick(doc,document);
 	if (!$defined(doc.$scripts)) {
 		doc.$scripts = new Array();
@@ -772,7 +773,7 @@ TPH.loadScript = function(url,onLoad,onError,doc,useCDN){
 };
 
 TPH.loadStylesheet = function(url,onLoad,onError,doc,useCDN){
-	console.log('Loading Stylesheet Asset:'+url);
+	console.log('Loading Asset Stylesheet:'+url);
 	var doc = $pick(doc,document);
 	if (!$defined(doc.$stylesheets)) {
 		doc.$stylesheets = new Array();

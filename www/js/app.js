@@ -86,7 +86,7 @@ var App = {
 			 
 			window.addEvents({
 				onLoadAsset:function(library){
-					console.log('Asset Loaded',library);
+					//console.log('Asset Loaded',library);
 					switch(library){
 						case 'L':
 							L.Icon.Default.imagePath = "https://cdn.wizaya.com/includes/images/";
