@@ -417,50 +417,65 @@ var App = {
 								}.bind(this)
 							});	
 						}
-						console.log('Load Script '+data.script);					
-						this.loadAsset(data.script,function(scriptUrl){ 
-							if ($defined(scriptUrl)) {
-								console.log(data.script,scriptUrl);
-								new Asset.javascript(scriptUrl,{
-									onload:function(){
-										console.log('Script loaded.');
-										$extend(TPH,{
-											$remote:this.app,
-											$session:data.session
-										});
-										if ($defined(data.inlineScripts)) {
-											console.log('Running inline scripts...');
-											new Function(data.inlineScripts)();	
+						if ($defined(data.script)) {
+							console.log('Load Script '+data.script);					
+							this.loadAsset(data.script,function(scriptUrl){ 
+								if ($defined(scriptUrl)) {
+									console.log(data.script,scriptUrl);
+									new Asset.javascript(scriptUrl,{
+										onload:function(){
+											console.log('Script loaded.');
+											$extend(TPH,{
+												$remote:this.app,
+												$session:data.session
+											});
+											if ($defined(data.inlineScripts)) {
+												console.log('Running inline scripts...');
+												new Function(data.inlineScripts)();	
+											}
+											
+											console.log('Firing domready event');
+											window.fireEvent.delay(500,window,'domready');
+										}.bind(this)
+									});	
+								} else {
+									console.log('No script loaded.');
+									$extend(TPH,{
+										$remote:this.app,
+										$session:data.session,
+										$servers:{
+											download:"https://download.wizaya.com",
+											cdn:"https://cdn.wizaya.com"
 										}
-										
-										console.log('Firing domready event');
-										window.fireEvent.delay(500,window,'domready');
-									}.bind(this)
-								});	
-							} else {
-								console.log('No script loaded.');
-								$extend(TPH,{
-									$remote:this.app,
-									$session:data.session,
-									$servers:{
-										download:"https://download.wizaya.com",
-										cdn:"https://cdn.wizaya.com"
+									});
+									console.log('Firing ENGINE.');
+									new ENGINE();
+									/*
+									if ($defined(data.inlineScripts)) {
+										console.log('Running inline scripts...');
+										console.log(data.inlineScripts);
+										new Function(data.inlineScripts)();	
 									}
-								});
-								console.log('Firing ENGINE.');
-								new ENGINE();
-								/*
-								if ($defined(data.inlineScripts)) {
-									console.log('Running inline scripts...');
-									console.log(data.inlineScripts);
-									new Function(data.inlineScripts)();	
+									console.log(TPH);
+									console.log('Firing domready event');
+									window.fireEvent.delay(500,window,'domready');
+									*/
 								}
-								console.log(TPH);
-								console.log('Firing domready event');
-								window.fireEvent.delay(500,window,'domready');
-								*/
+							}.bind(this));		
+						} else {
+							console.log('No script loaded.');
+							$extend(TPH,{
+								$remote:this.app,
+								$session:data.session
+							});
+							if ($defined(data.inlineScripts)) {
+								console.log('Running inline scripts...');
+								new Function(data.inlineScripts)();	
 							}
-						}.bind(this));	
+							
+							console.log('Firing domready event');
+							window.fireEvent.delay(500,window,'domready');
+						}
 					}.bind(this));				
 				}.bind(this),function(e){
 					console.log(e);
