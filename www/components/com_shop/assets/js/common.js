@@ -9956,7 +9956,7 @@ Shop.Realtime.Ably = new Class({
 			var data = msg.data,
 				name = msg.name;
 				//console.log(msg);
-			if ($defined(data)) {
+			if ($defined(data) && $defined(name)) {
 				switch(msg.clientId){
 					case 'server':
 						//name = name.base64_decode();
