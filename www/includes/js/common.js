@@ -741,7 +741,14 @@ TPH.loadScript = function(url,onLoad,onError,doc,useCDN){
 		doc.$scripts = new Array();
 	}
 	var link = url.toURI();
-	if (!$defined(window.cordova)) {
+	if ($defined(window.cordova)) { 
+		switch(device.platform.toLowerCase()) {
+			case 'ios':
+				link = cordova.file.applicationDirectory.toURI();
+				link.set('path',url);
+				break;
+		}
+	} else {
 		var servers = $pick(TPH.$servers,{});
 		if ($defined(servers.cdn) && $pick(useCDN,true)) {
 			var cdn = servers.cdn.toURI();
@@ -755,7 +762,7 @@ TPH.loadScript = function(url,onLoad,onError,doc,useCDN){
 			link.set('port',null);
 		}
 	}
-	
+	console.log('Translated Asset Script:'+link.toString());
 	if (!doc.$scripts.contains(link.toString())) {
 		new Asset.javascript(link.toString(),{
 			onLoad:function(){	
@@ -779,7 +786,14 @@ TPH.loadStylesheet = function(url,onLoad,onError,doc,useCDN){
 		doc.$stylesheets = new Array();
 	}
 	var link = url.toURI();
-	if (!$defined(window.cordova)) {
+	if ($defined(window.cordova)) { 
+		switch(device.platform.toLowerCase()) {
+			case 'ios':
+				link = cordova.file.applicationDirectory.toURI();
+				link.set('path',url);
+				break;
+		}
+	} else {
 		var servers = $pick(TPH.$servers,{});
 		if ($defined(servers.cdn) && $pick(useCDN,true)) {
 			var cdn = servers.cdn.toURI();
@@ -793,7 +807,7 @@ TPH.loadStylesheet = function(url,onLoad,onError,doc,useCDN){
 			link.set('port',null);
 		}
 	}
-
+	console.log('Translated Asset Stylesheet:'+link.toString());
 	if (!doc.$stylesheets.contains(link.toString())) {
 		new Asset.css(link.toString(),{
 			onLoad:function(){
@@ -826,7 +840,7 @@ TPH.loadAssetFiles = function(files,onLoad){
 		switch(ext){
 			case 'js':
 				TPH.loadScript(link.toString(),function(){
-					TPH.loadAssetFiles.delay(200,null,[files,onLoad]);
+					TPH.loadAssetFiles.delay(100,null,[files,onLoad]);
 				});
 				/*
 				new Asset.javascript(link.toString(),{
@@ -838,7 +852,7 @@ TPH.loadAssetFiles = function(files,onLoad){
 				break;
 			case 'css':
 				TPH.loadStylesheet(link.toString(),function(){
-					TPH.loadAssetFiles.delay(200,null,[files,onLoad]);
+					TPH.loadAssetFiles.delay(100,null,[files,onLoad]);
 				});
 				/*
 				new Asset.css(link.toString(),{
