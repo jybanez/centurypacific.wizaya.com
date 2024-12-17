@@ -772,7 +772,9 @@ TPH.loadScript = function(url,onLoad,onError,doc,useCDN){
 					onLoad();	
 				}
 			},
-			//onError:onError,
+			onError:function(){
+				console.log('Unabled to load '+link.toString());
+			},
 			document:doc
 		});	
 	} else if ($type(onLoad)=='function') {
@@ -818,7 +820,9 @@ TPH.loadStylesheet = function(url,onLoad,onError,doc,useCDN){
 					onLoad();	
 				}
 			},
-			//onError:onError,
+			onError:function(){
+				console.log('Unabled to load '+link.toString());
+			},
 			document:doc
 		});
 	} else if ($type(onLoad)=='function') {
