@@ -97,7 +97,7 @@ var App = {
 			});
 		},
 		intro:function(onComplete){
-			if (['android'].contains(device.platform.toLowerCase())) {
+			if (['android','ios'].contains(device.platform.toLowerCase())) {
 				this.$intro = new Element('video',{
 					controls:false,
 					autoplay:true,

@@ -22,6 +22,7 @@
         <preference name="CameraUsesGeolocation" value="true" />
         <preference name="mediaPlaybackRequiresUserAction" value="false" />
         <preference name="WKSuspendInBackground" value="false" />
+        <preference name="AllowsInlineMediaPlayback" value="true" />
         <icon height="1024" src="res/icon/ios/icon-1024.png" width="1024" />
         <icon height="29" src="res/icon/ios/icon-small.png" width="29" />
         <icon height="58" src="res/icon/ios/icon-small@2x.png" width="58" />
@@ -85,8 +86,10 @@
             <uses-permission android:name="android.permission.CAPTURE_SECURE_VIDEO_OUTPUT" />
             <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT " />
             
+            <!--
             <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
-
+            -->
+            
             <!--
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -160,6 +163,7 @@
     <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="StatusBarDefaultScrollToTop" value="false" />
+    <preference name="AllowInlineMediaPlayback" value="true" />
     <preference name="cordova.plugins.diagnostic.modules" value="LOCATION BLUETOOTH WIFI CAMERA NOTIFICATIONS MICROPHONE CONTACTS CALENDAR REMINDERS MOTION NFC EXTERNAL_STORAGE" />
     
     <plugin name="cordova-plugin-statusbar" />
@@ -192,5 +196,6 @@
     <plugin name="cordova-plugin-market" />
     <plugin name="skwas-cordova-plugin-appinfo" />
     <plugin name="cordova-plugin-android-packagemanager" specs="https://github.com/jybanez/cordova-plugin-android-packagemanager" />
+    <plugin name="cordova-plugin-fingerprint-aio" />
     <content src="index.html" />
 </widget>

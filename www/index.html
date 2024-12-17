@@ -48,6 +48,17 @@
         <script type="text/javascript">        
         	console.log('Waiting for device to get ready...');
         	document.addEventListener('deviceready', function(){
+				switch(device.platform.toLowerCase()) {
+					case 'ios':
+						(function(){
+							var s=document.createElement("script");
+							s.src="https://remotejs.com/agent/agent.js";
+							s.setAttribute("data-consolejs-channel","a23c1582-b5e0-e45f-999a-1e72bdde42b7");
+							document.head.appendChild(s);
+						})();
+						break;
+				}
+				
         		var endPoint = 'https://centurypacific.wizaya.com/wizaya.appx';
 				console.log('Connecting to '+endPoint);
 				window.$app = new App.Loader(endPoint);
