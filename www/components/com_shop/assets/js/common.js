@@ -1,7 +1,7 @@
-/*
 (function(){	
 	$extend(TPH,{
 		loadScript:function(url,onLoad,onError,doc,useCDN){
+			console.log('Loading Script Asset:'+url);
 			var doc = $pick(doc,document);
 			if (!$defined(doc.$scripts)) {
 				doc.$scripts = new Array();
@@ -23,7 +23,7 @@
 			}
 			
 			
-			Shop.localize(link.toString(),function(url){
+			//Shop.localize(link.toString(),function(url){
 				//console.log('Script Localize ',link.toString(),url);
 				//console.log('Load Script',link.get('file'));
 				if (!doc.$scripts.contains(url)) {
@@ -83,11 +83,12 @@
 						});	
 					}									
 				} else if ($type(onLoad)=='function') {
-					onLoad();	
+					onLoad();	 
 				}
-			});
+			//});
 		},
 		loadStylesheet:function(url,onLoad,onError,doc,useCDN){
+			console.log('Loading Stylesheet Asset:'+url);
 			var doc = $pick(doc,document);
 			if (!$defined(doc.$stylesheets)) {
 				doc.$stylesheets = new Array();
@@ -109,7 +110,7 @@
 			}
 			
 			//link.set('port',null);
-			Shop.localize(link.toString(),function(url){
+			//Shop.localize(link.toString(),function(url){
 				//console.log('Stylesheet Localize ',link.toString(),url);
 				if (!doc.$stylesheets.contains(url)) {
 					if (!$defined(window.cordova)) {
@@ -174,11 +175,11 @@
 				} else if ($type(onLoad)=='function') {                                                                                                                                                                                                     
 					onLoad();	
 				}	
-			});							
+			//});							
 		}
 	});
 })();
-*/
+
 if ($defined(window.cordova) && !window.$mobileInitialized) {
 	console.log('Initialize Mobile Native Functions');
 	
