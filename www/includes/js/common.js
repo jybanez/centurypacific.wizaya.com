@@ -741,11 +741,13 @@ TPH.loadScript = function(url,onLoad,onError,doc,useCDN){
 		doc.$scripts = new Array();
 	}
 	var link = url.toURI();
-	if ($defined(window.cordova)) { 
+	if ($defined(window.cordova) && $pick(useCDN,true)) { 
 		switch(device.platform.toLowerCase()) {
 			case 'ios':
-				link = cordova.file.applicationDirectory.toURI();
-				link.set('path',url);
+				var appDir = cordova.file.applicationDirectory.toURI();
+				var directory = link.get('directory').charAt(0)=='/'?link.get('directory').substring(1):link.get('directory');
+				link.set('scheme',appDir.get('scheme'));
+				link.set('directory',appDir.get('directory')+directory);
 				break;
 		}
 	} else {
@@ -786,11 +788,13 @@ TPH.loadStylesheet = function(url,onLoad,onError,doc,useCDN){
 		doc.$stylesheets = new Array();
 	}
 	var link = url.toURI();
-	if ($defined(window.cordova)) { 
+	if ($defined(window.cordova) && $pick(useCDN,true)) { 
 		switch(device.platform.toLowerCase()) {
 			case 'ios':
-				link = cordova.file.applicationDirectory.toURI();
-				link.set('path',url);
+				var appDir = cordova.file.applicationDirectory.toURI();
+				var directory = link.get('directory').charAt(0)=='/'?link.get('directory').substring(1):link.get('directory');
+				link.set('scheme',appDir.get('scheme'));
+				link.set('directory',appDir.get('directory')+directory);
 				break;
 		}
 	} else {
