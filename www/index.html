@@ -50,6 +50,7 @@
         	document.addEventListener('deviceready', function(){
 				switch(device.platform.toLowerCase()) {
 					case 'ios':
+						/*
 						Asset.javascript('https://remotejs.com/agent/agent.js',{
 							type:'text/javascript',
 							'data-consolejs-channel':appInfo.identifier,
@@ -60,13 +61,6 @@
 								alert('Unable to load Remote Console');
 							}
 						}).inject(document.head);
-						/*
-						(function(){
-							var s=document.createElement("script");
-							s.src="https://remotejs.com/agent/agent.js";
-							s.setAttribute("data-consolejs-channel",appInfo.identifier);
-							document.head.appendChild(s);
-						})();
 						*/
 						break;
 				}

@@ -28,7 +28,9 @@ var App = {
 			}
 		},
 		$assetsUpdated:false,
-		initialize:function(app,options){     
+		initialize:function(app,options){    
+			App.$instance = this;
+			 
 			this.app = app;
 			var url = app.toURI();
 			this.$id = url.get('host');
@@ -46,7 +48,7 @@ var App = {
 			//}
 			
 			
-			this.intro(function(){
+			this.intro(); //function(){
 				this.initializeAssets();
 				if ($defined(cordova.getAppVersion)) {
 					cordova.getAppVersion.getVersionNumber(function (version) {
@@ -56,7 +58,7 @@ var App = {
 							onReady:function(instance){
 								this.$fileSystem = instance;
 								
-								this.initializeNetwork.delay(1000,this,function(){
+								this.initializeNetwork.delay(200,this,function(){
 									this.run(function(){
 										this.hideSplash();
 									}.bind(this));	
@@ -70,7 +72,7 @@ var App = {
 						onReady:function(instance){
 							this.$fileSystem = instance;
 							
-							this.initializeNetwork.delay(1000,this,function(){
+							this.initializeNetwork.delay(200,this,function(){
 								this.run(function(){
 									this.hideSplash();
 								}.bind(this));	
@@ -78,11 +80,11 @@ var App = {
 						}.bind(this)
 					});
 				}
-			}.bind(this));
+			//}.bind(this));
 			
 			
 			
-			App.$instance = this;
+			
 			 
 			window.addEvents({
 				onLoadAsset:function(library){
