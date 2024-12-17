@@ -142,7 +142,6 @@
 	$extend(ENGINE,{
 		$overlayCount:0,
 		showOverlay:function(message,params){
-			return;
 			ENGINE.$overlayCount++;
 			var check = window.document.body.getElement('.engineOverlay');
 			if ($defined(check)) {
@@ -155,7 +154,6 @@
 			}).set('html','<div>'+message+'</div>');
 		},
 		hideOverlay:function(){
-			return;
 			ENGINE.$overlayCount--;
 			if (!ENGINE.$overlayCount) {
 				if ($defined(ENGINE.$overlay)){
