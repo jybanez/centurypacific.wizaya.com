@@ -158,7 +158,7 @@ var App = {
 			this.$offlineTemplate = this.$offline.get('html');
 			this.$offline.empty();
 			
-			this.$body.empty().removeClass('empty');
+			this.$body.removeClass('empty');
 		},
 		initializeNetwork:function(onInitialize){
 			this.updateNetwork();
