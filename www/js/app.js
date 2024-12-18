@@ -50,7 +50,7 @@ var App = {
 			
 			this.intro(function(){
 				this.clearIntro();
-			}.delay(1000,this)); 
+			}.delay(5000,this)); 
 			
 			this.initializeAssets();
 			if ($defined(cordova.getAppVersion)) {
