@@ -133,7 +133,7 @@ var App = {
 					video.fade('in');
 				}.bind(this),false);
 				video.addEventListener('ended',function(){
-					this.clearIntro.delay(500,this);
+					this.clearIntro.delay(1500,this);
 					$pick(onComplete,$empty)();
 				}.bind(this),false);
 				video.addEventListener('error',function(){
