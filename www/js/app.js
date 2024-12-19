@@ -48,9 +48,7 @@ var App = {
 			//}
 			
 			
-			this.intro(function(){
-				this.clearIntro();
-			}.delay(5000,this)); 
+			this.intro(); 
 			
 			this.initializeAssets();
 			if ($defined(cordova.getAppVersion)) {
@@ -102,7 +100,22 @@ var App = {
 		},
 		intro:function(onComplete){
 			if (['android','ios'].contains(device.platform.toLowerCase())) {
-				this.$intro = new Element('video',{
+				this.$intro = new Element('div',{
+					styles:{
+						left:0,
+						top:0,
+						right:0,
+						bottom:0,
+						width:'100%',
+						height:'100%',
+						background:'#000',
+						position:'fixed',
+						display:'block',
+						'z-index':1000
+					}
+				}).inject(this.$body);
+
+				var video = new Element('video',{
 					'class':'appIntro',
 					controls:false,
 					autoplay:true,
@@ -111,34 +124,24 @@ var App = {
 					width:'100%',
 					height:'100%',
 					styles:{
-						left:0,
-						top:0,
-						right:0,
-						bottom:0,
-						width:'100%',
-						height:'100%',
-						'object-fit':'contain',
-						background:'#000',
 						opacity:0,
-						position:'fixed',
-						display:'block',
-						'z-index':1000
+						'object-fit':'contain',
 					}
-				}).inject(this.$body);
+				}).inject(this.$intro);
 				
-				this.$intro.addEventListener('canplay',function(){
-					this.$intro.fade('in');
+				video.addEventListener('canplay',function(){
+					video.fade('in');
 				}.bind(this),false);
-				this.$intro.addEventListener('ended',function(){
-					//this.clearIntro();
+				video.addEventListener('ended',function(){
+					this.clearIntro();
 					$pick(onComplete,$empty)();
 				}.bind(this),false);
-				this.$intro.addEventListener('error',function(){
-					//this.clearIntro();
+				video.addEventListener('error',function(){
+					this.clearIntro();
 					$pick(onComplete,$empty)();
 				}.bind(this),false);
 				
-				this.$intro.adopt(new Element('source',{
+				video.adopt(new Element('source',{
 					src:'video/intro.mp4',
 					type:'video/mp4'
 				})); 
