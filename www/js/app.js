@@ -47,27 +47,8 @@ var App = {
 			//	new App.Interface.Log();	
 			//}
 			
-			
-			this.intro(); 
-			
 			this.initializeAssets();
-			if ($defined(cordova.getAppVersion)) {
-				cordova.getAppVersion.getVersionNumber(function (version) {
-					this.$version = version;
-					App.FileSystem.getInstance('PERSISTENT',{
-						base:'/'+this.$id,
-						onReady:function(instance){
-							this.$fileSystem = instance;
-							
-							this.initializeNetwork.delay(200,this,function(){
-								this.run(function(){
-									this.hideSplash();
-								}.bind(this));	
-							}.bind(this));
-						}.bind(this)
-					});
-				}.bind(this));	
-			} else {
+			this.intro(function(){
 				App.FileSystem.getInstance('PERSISTENT',{
 					base:'/'+this.$id,
 					onReady:function(instance){
@@ -80,12 +61,8 @@ var App = {
 						}.bind(this));
 					}.bind(this)
 				});
-			}
+			}.delay(500,this)); 
 			
-			
-			
-			
-			 
 			window.addEvents({
 				onLoadAsset:function(library){
 					//console.log('Asset Loaded',library);
@@ -133,7 +110,7 @@ var App = {
 					video.fade('in');
 				}.bind(this),false);
 				video.addEventListener('ended',function(){
-					this.clearIntro.delay(1500,this);
+					this.clearIntro();
 					$pick(onComplete,$empty)();
 				}.bind(this),false);
 				video.addEventListener('error',function(){
@@ -161,7 +138,11 @@ var App = {
 			this.$offlineTemplate = this.$offline.get('html');
 			this.$offline.empty();
 			
-			this.$body.removeClass('empty');
+			this.$body.empty().removeClass('empty');
+
+			if ($defined(window.appInfo)) {
+				this.$version = appInfo.version;
+			}
 		},
 		initializeNetwork:function(onInitialize){
 			this.updateNetwork();
@@ -431,7 +412,7 @@ var App = {
 						$remote:this.app,
 						$session:data.session
 					});
-					var body = this.$body.empty().set('html',data.body); //appendHTML(data.body,'top');
+					var body = this.$body.appendHTML(data.body,'top');
 					var head = this.$head;
 					//this.startSpin('Updating. Please wait...');
 					console.log('Load Stylesheet '+data.stylesheet);
