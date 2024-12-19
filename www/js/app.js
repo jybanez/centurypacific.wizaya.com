@@ -106,14 +106,14 @@ var App = {
 						top:0,
 						right:0,
 						bottom:0,
-						width:'100%',
-						height:'100%',
+						width:'100vh',
+						height:'100vh',
 						background:'#000',
 						position:'fixed',
 						display:'block',
 						'z-index':1000
 					}
-				}).inject(this.$body);
+				}).inject(this.$body,'after');
 
 				var video = new Element('video',{
 					'class':'appIntro',
