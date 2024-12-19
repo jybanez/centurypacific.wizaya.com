@@ -113,7 +113,7 @@ var App = {
 						display:'block',
 						'z-index':10000
 					}
-				}).inject(this.$body,'after');
+				}).inject(this.$body);
 
 				var video = new Element('video',{
 					'class':'appIntro',
