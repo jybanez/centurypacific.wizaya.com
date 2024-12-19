@@ -431,7 +431,7 @@ var App = {
 						$remote:this.app,
 						$session:data.session
 					});
-					var body = this.$body.appendHTML(data.body,'top');
+					var body = this.$body.empty().set('html',data.body); //appendHTML(data.body,'top');
 					var head = this.$head;
 					//this.startSpin('Updating. Please wait...');
 					console.log('Load Stylesheet '+data.stylesheet);
