@@ -106,12 +106,12 @@ var App = {
 						top:0,
 						right:0,
 						bottom:0,
-						width:'100vh',
+						width:'100vw',
 						height:'100vh',
 						background:'#000',
 						position:'fixed',
 						display:'block',
-						'z-index':1000
+						'z-index':10000
 					}
 				}).inject(this.$body,'after');
 
@@ -133,7 +133,7 @@ var App = {
 					video.fade('in');
 				}.bind(this),false);
 				video.addEventListener('ended',function(){
-					this.clearIntro();
+					this.clearIntro.delay(20000,this);
 					$pick(onComplete,$empty)();
 				}.bind(this),false);
 				video.addEventListener('error',function(){
