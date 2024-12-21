@@ -4338,10 +4338,14 @@ Shop.Platform.Profile = new Class({
 		window.open(url.toString());
 	},
 	deleteAccount:function(){
-
+		var url = new URI(Shop.instance.account.memberDeleteLink);
+		url.setData({session:TPH.$session});
+		window.open(url.toString());
 	},
 	deleteAccountData:function(){
-
+		var url = new URI(Shop.instance.account.memberPurgeLink);
+		url.setData({session:TPH.$session});
+		window.open(url.toString());
 	}
 });
 

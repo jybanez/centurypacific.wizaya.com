@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.wizaya.centurypacific" 
-		version="1.0.62" 
+		version="1.0.63" 
 		versionCode="" 
 		xmlns="http://www.w3.org/ns/widgets" 
 		xmlns:android="http://schemas.android.com/apk/res/android" 
@@ -10,7 +10,9 @@
     <author email="support@wizaya.com" href="http://www.wizaya.com">Tech Project Hive - Wizaya Division</author>
     <feature name="http://api.phonegap.com/1.0/battery" />
     <feature name="http://api.phonegap.com/1.0/camera" />
+    <!--
     <feature name="http://api.phonegap.com/1.0/contacts" />
+    -->
     <feature name="http://api.phonegap.com/1.0/file" />
     <feature name="http://api.phonegap.com/1.0/geolocation" />
     <feature name="http://api.phonegap.com/1.0/media" />
@@ -54,20 +56,22 @@
         <splash src="res/screen/ios/Default@2x~ipad~anyany.png" />
         <splash src="res/screen/ios/Default@2x~ipad~comany.png" />
         <edit-config file="*-Info.plist" mode="merge" target="NSCameraUsageDescription">
-            <string>need camera access to take pictures</string>
+            <string>need camera access to take pictures for your account profile photos and/or reporting requirements.</string>
         </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
-            <string>Need to access photo library for uploading photos for your account profile and product inquiries.</string>
+            <string>Need to access photo library for uploading photos for your account profile photos and/or reporting requirements.</string>
         </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription">
-            <string>Need location access to find shops nearby</string>
+            <string>Need location access to find nearby assigned outlets</string>
         </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
-            <string>Need location access to find shops nearby</string>
+            <string>Need location access to find nearby assigned outlets</string>
         </edit-config>
+        <!--
         <edit-config file="*-Info.plist" mode="merge" target="NSContactsUsageDescription">
             <string>Need contacts access for features and functionality purposes</string>
         </edit-config>
+        -->
         <config-file parent="NSAppTransportSecurity" target="*-Info.plist">
             <dict>
                 <key>NSAllowsArbitraryLoads</key>
@@ -82,9 +86,11 @@
     <platform name="android">
         <allow-intent href="market:*" />
         <config-file parent="/*" target="AndroidManifest.xml">
+            <!--
             <uses-permission android:name="android.permission.MICROPHONE" />
             <uses-permission android:name="android.permission.RECORD_AUDIO" />
             <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+            -->
             <uses-permission android:name="android.permission.CAMERA" />
             <uses-permission android:name="android.permission.CAPTURE_VIDEO_OUTPUT" />
             <uses-permission android:name="android.permission.CAPTURE_SECURE_VIDEO_OUTPUT" />
@@ -171,7 +177,7 @@
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="StatusBarDefaultScrollToTop" value="false" />
     <preference name="AllowInlineMediaPlayback" value="true" />
-    <preference name="cordova.plugins.diagnostic.modules" value="LOCATION BLUETOOTH WIFI CAMERA NOTIFICATIONS MICROPHONE CONTACTS CALENDAR REMINDERS MOTION NFC EXTERNAL_STORAGE" />
+    <preference name="cordova.plugins.diagnostic.modules" value="LOCATION BLUETOOTH WIFI CAMERA NOTIFICATIONS CALENDAR REMINDERS MOTION NFC EXTERNAL_STORAGE" />
     
     <plugin name="cordova-plugin-statusbar" />
     <plugin name="cordova-plugin-geolocation" />
