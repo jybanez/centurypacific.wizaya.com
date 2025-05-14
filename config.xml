@@ -211,7 +211,7 @@
     <plugin name="cordova-plugin-intent-list" spec="https://github.com/nick-denry/cordova-plugin-intent-list" />
     <plugin name="cordova-plugin-devoptionschecker" />
     <plugin name="cordova-plugin-market" />
-    <plugin name="cordova-plugin-web-share" />
+    <plugin name="cordova-plugin-x-socialsharing" />
     <plugin name="skwas-cordova-plugin-appinfo" />
     <plugin name="cordova-plugin-android-packagemanager" specs="https://github.com/jybanez/cordova-plugin-android-packagemanager" />
     <plugin name="cordova-plugin-fingerprint-aio" />
